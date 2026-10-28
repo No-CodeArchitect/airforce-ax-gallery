@@ -27,6 +27,7 @@
 | `APP_URL` | `https://airforce-ax-gallery.vercel.app` (**Production에만**. Preview·Development에는 넣지 않음) |
 | `ANTHROPIC_API_KEY` | 사용자에게 받은 값이 있을 때만 (**Sensitive**) |
 | `ANTHROPIC_MODEL` | 넣지 않음 (기본 모델 사용) |
+| `CRON_SECRET` | 무작위 문자열 40자 이상, `AUTH_SECRET` 과 다른 값 (**Sensitive**, Production만). DB 깨우기 크론 보호용 |
 
 - 구글 키 `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` 은 **지금 넣지 않습니다** (3단계).
 - 앞뒤 공백이나 따옴표가 들어가지 않게 주의하세요.
@@ -54,6 +55,9 @@
    - `"sorties": 5`
    - `env` 의 `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `AUTH_SECRET`, `ADMIN_PASSWORD`, `ADMIN_EMAILS`, `APP_URL` 이 모두 `true`
 3. `/sections` 에 SORTIE 01~05 다섯 개 회차가 보이는지 확인합니다.
-4. 환경변수를 배포 **후에** 넣거나 고쳤다면 **Deployments → 최신 배포 ⋯ → Redeploy** 를 해야 반영됩니다.
+4. 프로젝트 → **Settings → Cron Jobs** 에 `/api/keepalive` (매일 `0 21 * * *` = 한국 시간 06:00)가 등록돼 있고 켜져 있는지 확인합니다.
+   - Supabase Free 프로젝트가 7일 비활성으로 멈추지 않게 매일 DB를 깨우는 작업입니다.
+   - **Run** 버튼으로 한 번 실행했을 때 성공(200)이면 됩니다.
+5. 환경변수를 배포 **후에** 넣거나 고쳤다면 **Deployments → 최신 배포 ⋯ → Redeploy** 를 해야 반영됩니다.
 
 ✅ 2단계 완료 → `03_google_oauth.md` 로 넘어갑니다.

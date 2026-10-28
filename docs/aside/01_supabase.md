@@ -4,14 +4,23 @@
 
 ## 1-1. 프로젝트 만들기
 1. https://supabase.com/dashboard 접속 (사용자 계정으로 로그인돼 있어야 함)
-2. Organization은 사용자의 기존 조직을 고릅니다. Free 플랜이 아니면 멈추고 물어보세요.
-3. **New project**
+2. **새 Free 조직을 만듭니다** (사용자 결정: 비용 0원).
+   - 기존 `No-CodeArchitect's Org`(Pro 플랜)에는 **만들지 않습니다.** Pro 조직에 만들면 컴퓨트 비용이 추가됩니다.
+   - 조직 선택 메뉴 → **New organization**
+     - Name: `airforce-ax`
+     - Type: Personal (또는 Educational)
+     - Plan: **Free - $0/month**
+   - 결제 수단 등록을 요구하면 멈추고 사용자에게 물어보세요.
+3. 방금 만든 `airforce-ax` 조직 안에서 **New project**
    - Name: `airforce-ax-gallery`
    - Database Password: **Generate a password** 버튼을 누릅니다. 이 앱은 DB 비밀번호를 쓰지 않으므로 따로 적어 둘 필요가 없습니다.
    - Region: **Northeast Asia (Seoul)** — `ap-northeast-2`
    - Plan: Free
 4. **Create new project** → 준비될 때까지 1~2분 기다립니다.
-   - 무료 프로젝트 2개 한도에 걸리면 멈추고 사용자에게 물어보세요. 기존 프로젝트를 지우지 마세요.
+   - 무료 프로젝트 2개 한도(계정 전체 기준)에 걸리면 멈추고 사용자에게 물어보세요. 기존 프로젝트를 지우지 마세요.
+
+> 참고: Free 프로젝트는 7일 동안 활동이 없으면 자동으로 일시정지됩니다.
+> 앱에 Vercel 크론(`/api/keepalive`, 매일 06:00)이 들어 있어서, 2단계 배포가 끝나면 매일 DB를 깨웁니다. 따로 할 일은 없습니다.
 
 ## 1-2. 테이블 + 회차 만들기 (SQL 한 번 실행)
 1. 왼쪽 메뉴 **SQL Editor** → **New query**
