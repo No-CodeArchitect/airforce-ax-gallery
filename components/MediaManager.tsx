@@ -170,9 +170,9 @@ export default function MediaManager({
   }
 
   return (
-    <section className="rounded-2xl bg-coal p-5 ring-1 ring-white/10">
+    <section className="rounded-2xl bg-surface p-5 ring-1 ring-white/10">
       <h2 className="text-sm font-bold text-white">{title}</h2>
-      <p className="mb-4 mt-1 text-xs text-white/50">{description}</p>
+      <p className="mb-4 mt-1 text-xs text-white/60">{description}</p>
 
       {/* 드롭존 */}
       <div
@@ -185,7 +185,7 @@ export default function MediaManager({
         onDrop={onDrop}
         className={`flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-4 py-8 text-center transition ${
           over
-            ? "border-gold bg-gold/10"
+            ? "border-accent bg-accent/10"
             : "border-white/20 bg-white/[0.03] hover:border-white/40"
         }`}
       >
@@ -195,7 +195,7 @@ export default function MediaManager({
             ? "영상 파일 또는 유튜브 링크를 여기에 끌어다 놓으세요"
             : "영상·이미지 파일 또는 유튜브 링크를 여기에 끌어다 놓으세요"}
         </p>
-        <p className="text-xs text-white/40">
+        <p className="text-xs text-white/60">
           파일: mp4·webm·mov·jpg·png·webp·gif (50MB 이하) · 큰 영상은 유튜브 링크로
         </p>
         <button
@@ -230,11 +230,11 @@ export default function MediaManager({
           value={link}
           onChange={(e) => setLink(e.target.value)}
           placeholder="유튜브 링크 붙여넣기 (https://youtu.be/...)"
-          className="flex-1 rounded-lg border border-white/15 bg-coal-soft px-3 py-2 text-sm text-white outline-none placeholder:text-white/40 focus:border-gold focus:ring-2 focus:ring-gold/20"
+          className="flex-1 rounded-lg border border-white/15 bg-surface-soft px-3 py-2 text-sm text-white outline-none placeholder:text-white/40 focus:border-accent focus:ring-2 focus:ring-accent/20"
         />
         <button
           disabled={busy || !link.trim()}
-          className="rounded-lg bg-gold px-4 py-2 text-sm font-bold text-night transition hover:bg-gold-soft disabled:opacity-50"
+          className="rounded-lg bg-accent px-4 py-2 text-sm font-bold text-on-accent transition hover:bg-accent-soft disabled:opacity-50"
         >
           추가
         </button>
@@ -245,11 +245,11 @@ export default function MediaManager({
         <div className="mt-3">
           <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
             <div
-              className="h-full bg-gold transition-all"
+              className="h-full bg-accent transition-all"
               style={{ width: `${progress ?? 15}%` }}
             />
           </div>
-          <p className="mt-1 text-xs text-white/50">
+          <p className="mt-1 text-xs text-white/60">
             {progress !== null ? `업로드 중… ${progress}%` : "처리 중…"}
           </p>
         </div>
@@ -270,7 +270,7 @@ export default function MediaManager({
       {/* 현재 목록 */}
       <div className="mt-4">
         {items.length === 0 ? (
-          <p className="text-xs text-white/40">
+          <p className="text-xs text-white/60">
             {fallbackNote ?? "아직 추가된 미디어가 없습니다."}
           </p>
         ) : (
@@ -278,7 +278,7 @@ export default function MediaManager({
             {items.map((m) => (
               <li
                 key={m.id}
-                className="overflow-hidden rounded-lg bg-night ring-1 ring-white/10"
+                className="overflow-hidden rounded-lg bg-base ring-1 ring-white/10"
               >
                 <div className="relative aspect-video bg-white/[0.05]">
                   {m.kind === "youtube" && m.youtubeId && (
@@ -321,7 +321,7 @@ export default function MediaManager({
                     type="button"
                     disabled={busy}
                     onClick={() => onRemove(m.id)}
-                    className="text-xs text-white/40 hover:text-red-400 disabled:opacity-50"
+                    className="text-xs text-white/60 hover:text-red-400 disabled:opacity-50"
                   >
                     삭제
                   </button>

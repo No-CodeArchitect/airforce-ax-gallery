@@ -29,14 +29,14 @@ export default function ScoreWidget({
 
   if (!isLoggedIn) {
     return (
-      <div className="rounded-2xl bg-coal p-5 ring-1 ring-white/10">
+      <div className="rounded-2xl bg-surface p-5 ring-1 ring-white/10">
         <h3 className="text-sm font-bold text-white">채점</h3>
-        <p className="mt-2 text-sm text-white/50">
-          이 섹션에 가입·수락된 교육생만 채점할 수 있습니다.
+        <p className="mt-2 text-sm text-white/60">
+          이 회차에 가입·수락된 교육생만 채점할 수 있습니다.
         </p>
         <Link
           href={loginHref}
-          className="mt-4 block rounded-lg bg-gold px-4 py-2.5 text-center text-sm font-bold text-night transition hover:bg-gold-soft"
+          className="mt-4 block rounded-lg bg-accent px-4 py-2.5 text-center text-sm font-bold text-on-accent transition hover:bg-accent-soft"
         >
           로그인하고 채점하기
         </Link>
@@ -46,9 +46,9 @@ export default function ScoreWidget({
 
   if (isMine) {
     return (
-      <div className="rounded-2xl bg-coal p-5 ring-1 ring-white/10">
+      <div className="rounded-2xl bg-surface p-5 ring-1 ring-white/10">
         <h3 className="text-sm font-bold text-white">채점</h3>
-        <p className="mt-2 rounded-lg bg-white/5 px-3 py-3 text-sm text-white/50">
+        <p className="mt-2 rounded-lg bg-white/5 px-3 py-3 text-sm text-white/60">
           본인 작품은 채점할 수 없습니다. 다른 교육생의 프로젝트를 채점해 주세요.
         </p>
       </div>
@@ -58,7 +58,7 @@ export default function ScoreWidget({
   const alreadyScored = !!existing;
 
   return (
-    <div className="rounded-2xl bg-coal p-5 ring-1 ring-white/10">
+    <div className="rounded-2xl bg-surface p-5 ring-1 ring-white/10">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-sm font-bold text-white">채점</h3>
         {alreadyScored && (
@@ -69,7 +69,7 @@ export default function ScoreWidget({
       </div>
 
       {!isScoringOpen ? (
-        <p className="rounded-lg bg-white/5 px-3 py-3 text-sm text-white/50">
+        <p className="rounded-lg bg-white/5 px-3 py-3 text-sm text-white/60">
           채점이 마감되었습니다.
         </p>
       ) : (
@@ -102,7 +102,7 @@ export default function ScoreWidget({
           <button
             type="submit"
             disabled={pending}
-            className="rounded-lg bg-gold px-4 py-2.5 text-sm font-bold text-night transition hover:bg-gold-soft disabled:opacity-60"
+            className="rounded-lg bg-accent px-4 py-2.5 text-sm font-bold text-on-accent transition hover:bg-accent-soft disabled:opacity-60"
           >
             {pending
               ? "저장 중…"
@@ -110,7 +110,7 @@ export default function ScoreWidget({
                 ? "채점 수정"
                 : "채점 제출"}
           </button>
-          <p className="text-center text-xs text-white/40">
+          <p className="text-center text-xs text-white/60">
             점수는 마감 전까지 언제든 수정할 수 있어요.
           </p>
         </form>

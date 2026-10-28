@@ -1,17 +1,19 @@
 {
-  "name": "vibecoding-example-gallery",
+  "name": "airforce-ax-gallery",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seed:sorties": "node --env-file-if-exists=.env scripts/seed-sorties.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.125.0",
     "@supabase/supabase-js": "^2.117.0",
     "next": "^15.5.25",
+    "qrcode-generator": "^1.4.4",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "server-only": "^0.0.1"

@@ -14,7 +14,7 @@ export const dynamic = "force-dynamic";
 
 function Stars({ value }: { value: number }) {
   return (
-    <span className="text-gold">
+    <span className="text-accent">
       {"★".repeat(value)}
       <span className="text-white/20">{"★".repeat(5 - value)}</span>
     </span>
@@ -38,7 +38,7 @@ function Hero({
         href={liveUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="block overflow-hidden rounded-2xl ring-1 ring-white/10 transition hover:ring-gold/50"
+        className="block overflow-hidden rounded-2xl ring-1 ring-white/10 transition hover:ring-accent/50"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={imageUrl} alt={`${title} 썸네일`} className="aspect-[16/10] w-full object-cover object-top" />
@@ -92,16 +92,16 @@ export default async function ProjectDetailPage({
   }
 
   return (
-    <main className="min-h-screen bg-night text-white">
-      <div className="border-b border-white/10 bg-night-soft">
+    <main className="min-h-screen bg-base text-white">
+      <div className="border-b border-white/10 bg-base-soft">
         <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4 sm:px-6">
           <Link
             href={slug ? `/g/${slug}` : "/"}
-            className="text-sm font-semibold text-white/50 hover:text-gold"
+            className="text-sm font-semibold text-white/60 hover:text-accent"
           >
             ← 갤러리로
           </Link>
-          <span className="rounded-md bg-gold/15 px-2 py-0.5 text-xs font-bold text-gold">
+          <span className="rounded-md bg-accent/15 px-2 py-0.5 text-xs font-bold text-accent">
             {cohort?.name ?? ""}
           </span>
         </div>
@@ -119,8 +119,8 @@ export default async function ProjectDetailPage({
           <div>
             <div className="flex flex-wrap items-center gap-2">
               {rankRevealed && rank !== null && (
-                <span className="inline-flex items-center rounded-full bg-gold/20 px-2.5 py-0.5 text-sm font-bold text-gold">
-                  {rank === 1 ? "🥇" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : ""}{" "}
+                <span className="inline-flex items-center rounded-full bg-accent/20 px-2.5 py-0.5 text-sm font-bold text-accent">
+                  {rank === 1 ? "🥇 ACE ·" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : ""}{" "}
                   {rank}위
                 </span>
               )}
@@ -134,19 +134,19 @@ export default async function ProjectDetailPage({
               )}
             </div>
             {rankRevealed && (
-              <div className="mt-2 inline-flex items-center gap-2 rounded-lg bg-gold/15 px-3 py-1.5 text-sm">
-                <span className="font-bold text-gold">
+              <div className="mt-2 inline-flex items-center gap-2 rounded-lg bg-accent/15 px-3 py-1.5 text-sm">
+                <span className="font-bold text-accent">
                   교육생 평점 {agg.avg !== null ? agg.avg.toFixed(2) : "-"} / 5
                 </span>
-                <span className="text-white/50">· {agg.count}명 채점</span>
+                <span className="text-white/60">· {agg.count}명 채점</span>
                 {rank === null && (
-                  <span className="text-white/40">
+                  <span className="text-white/60">
                     · 최소 {cohort?.minRaters}명 미달로 순위 제외
                   </span>
                 )}
               </div>
             )}
-            <p className="mt-1 text-base text-white/50">{project.tagline}</p>
+            <p className="mt-1 text-base text-white/60">{project.tagline}</p>
             <div className="mt-3 flex items-center gap-3 text-sm">
               <span className="font-semibold text-white">
                 {project.authorName}
@@ -155,33 +155,33 @@ export default async function ProjectDetailPage({
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-semibold text-gold hover:text-gold-soft"
+                className="font-semibold text-accent hover:text-accent-soft"
               >
                 사이트 열기 ↗
               </a>
             </div>
           </div>
 
-          <section className="rounded-2xl bg-coal p-5 ring-1 ring-white/10">
+          <section className="rounded-2xl bg-surface p-5 ring-1 ring-white/10">
             <h2 className="text-sm font-bold text-white">AI 요약</h2>
             <p className="mt-2 text-sm leading-relaxed text-white/60">
               {project.aiSummary}
             </p>
-            <h3 className="mt-4 text-xs font-bold uppercase tracking-wide text-white/40">
+            <h3 className="mt-4 text-xs font-bold uppercase tracking-wide text-white/60">
               주요 특징
             </h3>
             <ul className="mt-2 flex flex-wrap gap-2">
               {project.features.map((f) => (
                 <li
                   key={f}
-                  className="rounded-full bg-gold/15 px-3 py-1 text-sm font-medium text-gold"
+                  className="rounded-full bg-accent/15 px-3 py-1 text-sm font-medium text-accent"
                 >
                   {f}
                 </li>
               ))}
             </ul>
             {project.details?.highlights && (
-              <p className="mt-4 text-sm text-white/50">
+              <p className="mt-4 text-sm text-white/60">
                 <span className="font-semibold text-white/70">하이라이트 · </span>
                 {project.details.highlights}
               </p>
@@ -189,13 +189,13 @@ export default async function ProjectDetailPage({
           </section>
 
           {project.details && (
-            <section className="rounded-2xl bg-coal p-5 ring-1 ring-white/10">
+            <section className="rounded-2xl bg-surface p-5 ring-1 ring-white/10">
               <h2 className="text-sm font-bold text-white">제작자 설명</h2>
               <dl className="mt-3 flex flex-col gap-4 text-sm">
                 {(
                   [
                     ["해결하려는 문제", project.details.problem],
-                    ["군 활용 시나리오", project.details.militaryUseCase],
+                    ["업무에 이렇게 쓸 수 있어요", project.details.militaryUseCase],
                     ["사용한 도구·기술", project.details.techStack],
                     ["제작 후기", project.details.notes],
                   ] as const
@@ -203,19 +203,19 @@ export default async function ProjectDetailPage({
                   .filter(([, v]) => v)
                   .map(([k, v]) => (
                     <div key={k}>
-                      <dt className="text-xs font-bold uppercase tracking-wide text-white/40">{k}</dt>
+                      <dt className="text-xs font-bold uppercase tracking-wide text-white/60">{k}</dt>
                       <dd className="mt-1 whitespace-pre-line leading-relaxed text-white/70">{v}</dd>
                     </div>
                   ))}
                 {project.repoUrl && (
                   <div>
-                    <dt className="text-xs font-bold uppercase tracking-wide text-white/40">소스코드</dt>
+                    <dt className="text-xs font-bold uppercase tracking-wide text-white/60">소스코드</dt>
                     <dd className="mt-1">
                       <a
                         href={project.repoUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="break-all text-gold hover:text-gold-soft"
+                        className="break-all text-accent hover:text-accent-soft"
                       >
                         {project.repoUrl}
                       </a>
@@ -226,24 +226,24 @@ export default async function ProjectDetailPage({
             </section>
           )}
 
-          <section className="rounded-2xl bg-coal p-5 ring-1 ring-white/10">
+          <section className="rounded-2xl bg-surface p-5 ring-1 ring-white/10">
             <div className="flex items-center justify-between">
               <h2 className="text-sm font-bold text-white">AI 심사평</h2>
-              <span className="text-xs text-white/40">순위 미반영 · 참고용</span>
+              <span className="text-xs text-white/60">순위 미반영 · 참고용</span>
             </div>
             {hideAi ? (
-              <p className="mt-3 rounded-lg bg-white/5 px-3 py-3 text-sm text-white/50">
+              <p className="mt-3 rounded-lg bg-white/5 px-3 py-3 text-sm text-white/60">
                 공정한 채점을 위해 AI 점수와 심사평은 채점이 마감된 뒤 공개됩니다.
               </p>
             ) : (
             <>
             <div className="mt-3 flex flex-wrap gap-4 text-sm">
               <div className="flex items-center gap-2">
-                <span className="text-white/50">완성도</span>
+                <span className="text-white/60">완성도</span>
                 <Stars value={project.aiReview.scoreCompleteness} />
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-white/50">창의성</span>
+                <span className="text-white/60">창의성</span>
                 <Stars value={project.aiReview.scoreCreativity} />
               </div>
             </div>
@@ -254,7 +254,7 @@ export default async function ProjectDetailPage({
             )}
           </section>
 
-          <section className="rounded-2xl bg-coal p-5 ring-1 ring-white/10">
+          <section className="rounded-2xl bg-surface p-5 ring-1 ring-white/10">
             <div className="mb-4 flex items-center gap-2">
               <h2 className="text-sm font-bold text-white">댓글</h2>
               <span className="rounded-full bg-white/10 px-2 py-0.5 text-xs font-semibold text-white/60">
@@ -267,9 +267,9 @@ export default async function ProjectDetailPage({
               ) : (
                 <Link
                   href={slug ? `/g/${slug}/join` : "/"}
-                  className="block rounded-xl border border-white/15 bg-coal-soft px-4 py-3 text-center text-sm font-semibold text-gold transition hover:bg-white/5"
+                  className="block rounded-xl border border-white/15 bg-surface-soft px-4 py-3 text-center text-sm font-semibold text-accent transition hover:bg-white/5"
                 >
-                  이 섹션 교육생으로 로그인하면 댓글을 남길 수 있어요
+                  이 회차 교육생으로 로그인하면 댓글을 남길 수 있어요
                 </Link>
               )}
             </div>

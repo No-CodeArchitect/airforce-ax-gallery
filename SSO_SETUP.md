@@ -12,7 +12,7 @@
 
 ## 1. Google Cloud에서 OAuth 클라이언트 만들기 (약 15분)
 
-1. https://console.cloud.google.com 접속 → 상단 프로젝트 선택 → **새 프로젝트** (이름 예: `vibecoding-gallery-admin`)
+1. https://console.cloud.google.com 접속 → 상단 프로젝트 선택 → **새 프로젝트** (이름 예: `airforce-ax-gallery`) — **이 사이트 전용 새 OAuth 클라이언트**를 만듭니다
 2. 왼쪽 메뉴 **API 및 서비스 → OAuth 동의 화면** (또는 *Google Auth Platform*)
    - 사용자 유형: **외부(External)** — 여러 도메인의 계정을 허용하려면 외부를 선택
    - 앱 이름, 지원 이메일, 개발자 연락처 이메일 입력 후 저장
@@ -24,7 +24,7 @@
    - **승인된 리디렉션 URI**에 아래 두 개를 추가 (정확히 일치해야 함):
      ```
      http://localhost:3000/api/admin/google/callback
-     https://kaist-vibecoding.vercel.app/api/admin/google/callback
+     https://airforce-ax-gallery.vercel.app/api/admin/google/callback
      ```
    - 만들기를 누르면 **클라이언트 ID**와 **클라이언트 보안 비밀번호(Secret)** 가 나옵니다.
 
@@ -35,9 +35,12 @@
 GOOGLE_CLIENT_ID=발급받은-클라이언트-ID
 GOOGLE_CLIENT_SECRET=발급받은-시크릿
 ADMIN_EMAILS=jjh@airi.kr
+APP_URL=https://airforce-ax-gallery.vercel.app
 ```
 
-**Vercel** — 프로젝트 → Settings → Environment Variables 에 같은 3개를 추가 → **Redeploy**
+> `APP_URL` 은 리디렉션 주소를 Vercel 기본 주소로 고정합니다 (미리보기 배포 주소로 로그인이 새지 않도록).
+
+**Vercel** — 프로젝트 → Settings → Environment Variables 에 같은 4개(`APP_URL` 포함)를 추가 → **Redeploy**
 - `GOOGLE_CLIENT_SECRET` 은 **Secret** 타입으로 저장 (저장 후에는 다시 볼 수 없으니 따로 보관)
 - `ADMIN_EMAILS` 는 쉼표로 여러 명 가능: `a@airi.kr,b@gmail.com`
 
@@ -67,9 +70,11 @@ ADMIN_EMAILS=jjh@airi.kr
 ## 교육생 로그인
 교육생도 **같은 OAuth 클라이언트·같은 리디렉션 주소**(`/api/admin/google/callback`)로 로그인합니다. 구글 콘솔에 주소를 추가할 필요는 없습니다.
 
-1. 교육생이 섹션 배부 링크(`/g/<slug>`)에서 「로그인하고 참여하기」 → 구글 로그인
-2. 처음이면 **실명·닉네임**으로 가입 신청 → `/admin` 의 섹션 카드 「가입 신청 · 교육생」에 대기로 표시
-3. 관리자가 실명을 명단과 대조해 **수락**(또는 「전체 수락」) → 바로 채점·댓글·작품 등록 가능
+1. 교육생이 회차 배부 링크(`/g/<slug>`) 또는 입장 QR에서 「로그인하고 참여하기」 → 구글 로그인
+2. 처음이면 **실명·닉네임**(+ 회차에 설정된 경우 **6자리 입장 코드**)으로 가입 신청
+   - 입장 코드가 맞으면 **즉시 수락** → 바로 갤러리로 이동
+   - 코드를 비우면 `/admin` 의 회차 카드 「가입 신청 · 교육생」에 대기로 표시
+3. (코드 미사용 시) 관리자가 실명을 명단과 대조해 **수락**(또는 「전체 수락」) → 바로 채점·댓글·작품 등록 가능
 4. 「수락 취소」하면 즉시 권한이 사라집니다. 사이트에는 닉네임만, 관리자 화면에는 닉네임(실명)이 보입니다.
 
 ⚠️ **OAuth 동의 화면이 "테스트" 상태면 테스트 사용자로 등록한 계정만 로그인됩니다.** 교육생을 받기 전에 반드시 **"프로덕션으로 게시"** 하세요. (기본 범위만 쓰므로 심사 없이 게시 가능)
@@ -77,3 +82,10 @@ ADMIN_EMAILS=jjh@airi.kr
 ## 다른 사이트에서도 재사용하려면
 - 같은 OAuth 클라이언트에 **리디렉션 URI만 추가**하면 여러 사이트가 하나의 구글 설정을 같이 쓸 수 있습니다. (사이트별로 클라이언트를 따로 만드는 것도 가능)
 - 허용 이메일 목록은 사이트마다 따로 관리됩니다.
+
+## 카카오톡으로 링크를 공유할 때 (중요)
+구글은 카카오톡·인스타그램·네이버 앱 등 **인앱 브라우저에서 로그인을 차단**합니다(`disallowed_useragent`).
+이 사이트는 `/g/<slug>/join`, `/me`(=`/login`) 에서 인앱 브라우저를 감지하면 로그인 버튼 대신 **「다른 브라우저로 열기」 안내**를 보여 줍니다.
+- 안드로이드: 버튼 한 번으로 크롬 등 외부 브라우저로 열림 (카카오톡은 `kakaotalk://web/openExternal` 스킴)
+- iOS: 「⋯ → Safari로 열기」 그림 안내 + 주소 복사 버튼
+- 현장에서는 카톡 링크보다 **입장 QR**(발표 화면·관리자 회차 카드)을 기본 카메라로 찍게 하는 편이 가장 빠릅니다.

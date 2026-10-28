@@ -57,27 +57,27 @@ export default async function SubmitPage({
   const status = statusKey ? STATUS_TEXT[statusKey] : null;
 
   return (
-    <main className="min-h-screen bg-night text-white">
+    <main className="min-h-screen bg-base text-white">
       <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6">
-        <Link href={`/g/${slug}`} className="text-xs font-semibold text-white/40 hover:text-gold">
+        <Link href={`/g/${slug}`} className="text-xs font-semibold text-white/60 hover:text-accent">
           ← {cohort.name} 갤러리
         </Link>
         <h1 className="mt-3 text-2xl font-black tracking-tight sm:text-3xl">
           {record ? "내 작품 수정" : "작품 등록"}
         </h1>
-        <p className="mt-1 text-sm text-white/50">
+        <p className="mt-1 text-sm text-white/60">
           만든 결과물의 썸네일·배포 주소·설명을 남겨 주세요. AI가 내용을 분석해 갤러리 카드로
           만들어 줍니다. 1인 1작품이며, 마감 전까지 언제든 수정할 수 있습니다.
         </p>
 
         {!student ? (
-          <div className="mt-8 rounded-2xl bg-coal p-6 text-center ring-1 ring-white/10">
+          <div className="mt-8 rounded-2xl bg-surface p-6 text-center ring-1 ring-white/10">
             <p className="text-sm text-white/60">
-              작품을 등록하려면 이 섹션에 가입·수락된 계정으로 로그인하세요.
+              작품을 등록하려면 이 회차에 가입·수락된 계정으로 로그인하세요.
             </p>
             <Link
               href={`/g/${slug}/join?next=submit`}
-              className="mt-4 inline-block rounded-full bg-gold px-5 py-2 text-sm font-bold text-night hover:bg-gold-soft"
+              className="mt-4 inline-block rounded-full bg-accent px-5 py-2 text-sm font-bold text-on-accent hover:bg-accent-soft"
             >
               로그인 / 가입 신청
             </Link>
@@ -85,7 +85,7 @@ export default async function SubmitPage({
         ) : (
           <>
             {status && (
-              <div className="mt-6 rounded-xl bg-coal px-4 py-3 ring-1 ring-white/10">
+              <div className="mt-6 rounded-xl bg-surface px-4 py-3 ring-1 ring-white/10">
                 <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${status.tone}`}>
                   {status.label}
                 </span>
@@ -93,7 +93,7 @@ export default async function SubmitPage({
                 {record?.ai && (
                   <Link
                     href={`/project/${record.id}`}
-                    className="mt-2 inline-block text-xs font-semibold text-gold hover:underline"
+                    className="mt-2 inline-block text-xs font-semibold text-accent hover:underline"
                   >
                     공개된 내 카드 보기 →
                   </Link>
@@ -105,8 +105,8 @@ export default async function SubmitPage({
                 채점이 마감되어 등록·수정이 잠겼습니다.
               </p>
             )}
-            <div className="mt-6 rounded-2xl bg-coal p-6 ring-1 ring-white/10">
-              <p className="mb-5 text-xs text-white/40">
+            <div className="mt-6 rounded-2xl bg-surface p-6 ring-1 ring-white/10">
+              <p className="mb-5 text-xs text-white/60">
                 제작자: <span className="font-semibold text-white/80">{student.name}</span>
               </p>
               <SubmitProjectForm

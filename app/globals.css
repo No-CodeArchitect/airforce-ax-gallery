@@ -7,5 +7,50 @@
 }
 
 body {
-  @apply bg-night text-white antialiased;
+  @apply bg-base text-white antialiased;
+  word-break: keep-all; /* 한글 단어 중간에서 줄바꿈하지 않기 */
+  overflow-wrap: anywhere;
+}
+
+@layer components {
+  /* 하늘 그라디언트 + 항적(contrail) 사선 + 은은한 HUD 격자 — 순수 CSS */
+  .sky-bg {
+    background-image:
+      radial-gradient(70% 60% at 85% 0%, rgba(79, 179, 255, 0.22), transparent 65%),
+      radial-gradient(50% 50% at 10% 30%, rgba(79, 179, 255, 0.1), transparent 70%),
+      linear-gradient(180deg, #15304f 0%, #0b1a2e 75%);
+  }
+  .hud-grid {
+    background-image:
+      linear-gradient(rgba(143, 208, 255, 1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(143, 208, 255, 1) 1px, transparent 1px);
+    background-size: 56px 56px;
+    opacity: 0.05;
+  }
+  .contrail {
+    position: absolute;
+    height: 2px;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, transparent, rgba(244, 248, 252, 0.5) 70%, rgba(244, 248, 252, 0.85));
+  }
+  /* Eyebrow 앞 짧은 사선 마커(항적) */
+  .eyebrow-mark {
+    display: inline-block;
+    width: 14px;
+    height: 2px;
+    border-radius: 9999px;
+    transform: rotate(-30deg);
+    @apply bg-accent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }

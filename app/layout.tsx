@@ -1,9 +1,26 @@
 import type { Metadata } from "next";
+import { JetBrains_Mono } from "next/font/google";
+import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["500", "700"],
+  variable: "--font-mono",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "바이브코딩 결과물 갤러리",
-  description: "AI 보수교육 교육생 프로젝트 갤러리 · 상호 채점 · AI 큐레이션",
+  metadataBase: new URL(siteConfig.url),
+  title: { default: siteConfig.galleryTitle, template: `%s · ${siteConfig.shortName}` },
+  description: siteConfig.description,
+  openGraph: {
+    title: siteConfig.galleryTitle,
+    description: siteConfig.description,
+    siteName: siteConfig.galleryTitle,
+    locale: "ko_KR",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -12,7 +29,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko">
+    <html lang="ko" className={mono.variable}>
+      <head>
+        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

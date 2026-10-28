@@ -30,7 +30,7 @@ function avatarColor(seed: string): string {
 export default function CommentList({ comments }: { comments: Comment[] }) {
   if (comments.length === 0) {
     return (
-      <p className="rounded-xl bg-white/5 px-4 py-6 text-center text-sm text-white/40">
+      <p className="rounded-xl bg-white/5 px-4 py-6 text-center text-sm text-white/60">
         아직 댓글이 없습니다. 첫 코멘트를 남겨보세요!
       </p>
     );
@@ -53,11 +53,11 @@ export default function CommentList({ comments }: { comments: Comment[] }) {
                 {c.aiNickname}
               </span>
               {c.isAuthorReply && (
-                <span className="inline-flex items-center rounded-full bg-gold/15 px-2 py-0.5 text-xs font-semibold text-gold">
+                <span className="inline-flex items-center rounded-full bg-accent/15 px-2 py-0.5 text-xs font-semibold text-accent">
                   제작자
                 </span>
               )}
-              <span className="text-xs text-white/40">
+              <span className="text-xs text-white/60">
                 {relativeTime(c.createdAt)}
               </span>
             </div>

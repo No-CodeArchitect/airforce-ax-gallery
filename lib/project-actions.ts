@@ -24,6 +24,7 @@ export interface SubmitState {
   values?: Submission; // 오류 시 입력값 유지용 (React 19 폼 자동 초기화 대응)
   thumbError?: string;
   thumbSaved?: string; // 저장까지 끝난 썸네일 경로
+  ackError?: string; // 보안 확인 체크 누락
 }
 
 // 필드별 최대 길이
@@ -46,9 +47,9 @@ export async function submitProjectAction(
   formData: FormData
 ): Promise<SubmitState> {
   const cohort = await getCohortById(String(formData.get("cohortId") ?? ""));
-  if (!cohort) return { ok: false, error: "섹션 정보를 찾을 수 없습니다." };
+  if (!cohort) return { ok: false, error: "회차 정보를 찾을 수 없습니다." };
   const student = await getStudent(cohort.id);
-  if (!student) return { ok: false, error: "이 섹션에 가입·수락된 교육생만 등록할 수 있습니다." };
+  if (!student) return { ok: false, error: "이 회차에 가입·수락된 교육생만 등록할 수 있습니다." };
   if (!cohort.scoringOpen || cohort.rankRevealed) {
     return { ok: false, error: "채점이 마감되어 작품 등록·수정이 잠겼습니다." };
   }
@@ -91,8 +92,12 @@ export async function submitProjectAction(
     thumbError = "썸네일 이미지를 올려 주세요.";
   }
 
-  if (Object.keys(fieldErrors).length > 0 || thumbError) {
-    return { ok: false, error: "입력 내용을 확인해 주세요.", fieldErrors, thumbError, values: sub };
+  // 보안 확인 체크는 서버에서도 검증한다 (체크 없이 보낸 요청은 거부)
+  const securityAck = formData.get("securityAck") === "on";
+  const ackError = securityAck ? undefined : "보안 정보가 없음을 확인하고 체크해 주세요.";
+
+  if (Object.keys(fieldErrors).length > 0 || thumbError || ackError) {
+    return { ok: false, error: "입력 내용을 확인해 주세요.", fieldErrors, thumbError, ackError, values: sub };
   }
 
   try {
@@ -102,6 +107,7 @@ export async function submitProjectAction(
       authorName: student.name, // 닉네임 (공개 표시)
       submission: sub,
       thumb,
+      securityAck,
     });
   } catch (err) {
     return { ok: false, error: `저장에 실패했습니다: ${(err as Error).message}`, values: sub };

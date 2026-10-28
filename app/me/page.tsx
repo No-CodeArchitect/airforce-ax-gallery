@@ -6,13 +6,15 @@ import { getMember } from "@/lib/member-session";
 import { listMembershipsOf, type MembershipStatus } from "@/lib/memberships-store";
 import { listCohorts } from "@/lib/cohorts-store";
 import { logout } from "@/lib/auth-actions";
+import InAppNotice from "@/components/InAppNotice";
+import { getInApp, requestOrigin } from "@/lib/inapp";
 
 export const dynamic = "force-dynamic";
 
 const STATUS: Record<MembershipStatus, { label: string; tone: string }> = {
   approved: { label: "수락됨", tone: "bg-emerald-500/20 text-emerald-300" },
   pending: { label: "수락 대기", tone: "bg-amber-500/20 text-amber-300" },
-  rejected: { label: "미수락", tone: "bg-white/10 text-white/50" },
+  rejected: { label: "미수락", tone: "bg-white/10 text-white/60" },
 };
 
 function errorText(code?: string): string | null {
@@ -35,9 +37,10 @@ export default async function MePage({
     : [[], []];
   const byCohort = new Map(memberships.map((m) => [m.cohortId, m]));
   const others = cohorts.filter((c) => !byCohort.has(c.id));
+  const inApp = member ? null : await getInApp();
 
   return (
-    <div className="min-h-screen bg-night text-white">
+    <div className="min-h-screen bg-base text-white">
       <SiteHeader />
       <main className="mx-auto max-w-2xl px-4 py-14 sm:px-6">
         <h1 className="text-3xl font-black tracking-tight">내 계정</h1>
@@ -46,19 +49,23 @@ export default async function MePage({
         )}
 
         {!member ? (
-          <div className="mt-8 rounded-2xl bg-coal p-6 ring-1 ring-white/10">
+          <div className="mt-8 rounded-2xl bg-surface p-6 ring-1 ring-white/10">
             <p className="mb-5 text-sm leading-relaxed text-white/60">
-              교육생은 구글 계정으로 로그인한 뒤, 자기 과정(섹션)에 가입을 신청합니다. 강사가
-              수락하면 채점·댓글·작품 등록을 할 수 있습니다.
+              교육생은 구글 계정으로 로그인한 뒤, 자기 회차에 가입을 신청합니다. 입장 코드를 넣거나
+              강사가 수락하면 채점·댓글·작품 등록을 할 수 있습니다.
             </p>
-            <GoogleButton next="/me" />
+            {inApp?.kind ? (
+              <InAppNotice url={`${await requestOrigin()}/me`} kind={inApp.kind} os={inApp.os} />
+            ) : (
+              <GoogleButton next="/me" />
+            )}
           </div>
         ) : (
           <>
-            <div className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-coal px-4 py-3 ring-1 ring-white/10">
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-surface px-4 py-3 ring-1 ring-white/10">
               <div className="text-sm">
                 <div className="font-semibold text-white">{member.name || member.email}</div>
-                <div className="text-xs text-white/40">{member.email}</div>
+                <div className="text-xs text-white/60">{member.email}</div>
               </div>
               <form action={logout}>
                 <button className="rounded-lg border border-white/20 px-3 py-1.5 text-xs font-semibold text-white/70 hover:bg-white/10">
@@ -67,9 +74,9 @@ export default async function MePage({
               </form>
             </div>
 
-            <h2 className="mt-10 text-sm font-bold text-white">내 섹션</h2>
+            <h2 className="mt-10 text-sm font-bold text-white">내 회차</h2>
             {memberships.length === 0 ? (
-              <p className="mt-2 text-sm text-white/40">아직 가입한 섹션이 없습니다.</p>
+              <p className="mt-2 text-sm text-white/60">아직 가입한 회차가 없습니다.</p>
             ) : (
               <ul className="mt-3 flex flex-col gap-2">
                 {memberships.map((m) => {
@@ -79,11 +86,11 @@ export default async function MePage({
                     <li key={m.id}>
                       <Link
                         href={m.status === "approved" ? `/g/${c.slug}` : `/g/${c.slug}/join`}
-                        className="flex items-center justify-between gap-3 rounded-xl bg-coal px-4 py-3 ring-1 ring-white/10 transition hover:ring-gold/40"
+                        className="flex items-center justify-between gap-3 rounded-xl bg-surface px-4 py-3 ring-1 ring-white/10 transition hover:ring-accent/40"
                       >
                         <div>
                           <div className="font-bold text-white">{c.name}</div>
-                          <div className="text-xs text-white/40">닉네임 {m.nickname}</div>
+                          <div className="text-xs text-white/60">닉네임 {m.nickname}</div>
                         </div>
                         <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${STATUS[m.status].tone}`}>
                           {STATUS[m.status].label}
@@ -97,19 +104,19 @@ export default async function MePage({
 
             {others.length > 0 && (
               <>
-                <h2 className="mt-10 text-sm font-bold text-white">다른 섹션 가입 신청</h2>
-                <p className="mt-1 text-xs text-white/40">
-                  내가 듣는 과정을 골라 가입을 신청하세요. 강사가 수락해야 이용할 수 있습니다.
+                <h2 className="mt-10 text-sm font-bold text-white">다른 회차 가입 신청</h2>
+                <p className="mt-1 text-xs text-white/60">
+                  내가 참여한 회차를 골라 가입을 신청하세요.
                 </p>
                 <ul className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
                   {others.map((c) => (
                     <li key={c.id}>
                       <Link
                         href={`/g/${c.slug}/join`}
-                        className="flex items-center justify-between rounded-xl border border-white/10 px-4 py-3 text-sm transition hover:border-gold/50"
+                        className="flex items-center justify-between rounded-xl border border-white/10 px-4 py-3 text-sm transition hover:border-accent/50"
                       >
                         <span className="font-semibold text-white/80">{c.name}</span>
-                        <span className="text-xs font-bold text-gold">신청 →</span>
+                        <span className="text-xs font-bold text-accent">신청 →</span>
                       </Link>
                     </li>
                   ))}

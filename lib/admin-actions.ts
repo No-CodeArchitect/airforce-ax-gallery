@@ -15,6 +15,10 @@ import {
   setCohortScoringOpen,
   setCohortRankRevealed,
   setCohortMinRaters,
+  setCohortJoinCode,
+  updateCohortDetails,
+  JOIN_CODE_RE,
+  type CohortDetails,
 } from "./cohorts-store";
 import {
   approveAllPending,
@@ -54,13 +58,61 @@ function refresh() {
   revalidatePath("/", "layout");
 }
 
-// --- 섹션(기수) ---
+// --- 섹션(회차) ---
+
+// "2026-10-30T15:30"(KST 입력) → ISO. 빈 값은 null.
+function kstLocalToIso(v: FormDataEntryValue | null): string | null {
+  const s = String(v ?? "").trim();
+  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(s)) return null;
+  const d = new Date(`${s}:00+09:00`);
+  return Number.isNaN(d.getTime()) ? null : d.toISOString();
+}
+
+function readDetails(formData: FormData): Partial<CohortDetails> {
+  const out: Partial<CohortDetails> = {};
+  const no = Number(formData.get("sessionNo"));
+  if (formData.has("sessionNo")) out.sessionNo = Number.isInteger(no) && no > 0 && no < 100 ? no : null;
+  if (formData.has("heldOn")) {
+    const d = String(formData.get("heldOn") ?? "").trim();
+    out.heldOn = /^\d{4}-\d{2}-\d{2}$/.test(d) ? d : null;
+  }
+  if (formData.has("location")) out.location = String(formData.get("location") ?? "").trim().slice(0, 20) || null;
+  if (formData.has("submitDueAt")) out.submitDueAt = kstLocalToIso(formData.get("submitDueAt"));
+  if (formData.has("scoreDueAt")) out.scoreDueAt = kstLocalToIso(formData.get("scoreDueAt"));
+  return out;
+}
+
 export async function createCohortAction(formData: FormData): Promise<void> {
   await requireAdmin();
   const name = String(formData.get("name") ?? "").trim();
   const slug = String(formData.get("slug") ?? "").trim();
   if (!name) return;
-  await createCohort(name, slug || undefined);
+  await createCohort(name, slug || undefined, readDetails(formData));
+  refresh();
+}
+
+// 회차 정보(번호·교육일·지역·마감 표시 시각) 저장
+export async function updateCohortDetailsAction(formData: FormData): Promise<void> {
+  await requireAdmin();
+  const cohortId = String(formData.get("cohortId") ?? "");
+  if (!cohortId) return;
+  await updateCohortDetails(cohortId, readDetails(formData));
+  refresh();
+}
+
+// 입장 코드 설정(6자리 숫자) / 해제(빈 값 또는 clear=1)
+export async function setJoinCodeAction(formData: FormData): Promise<void> {
+  await requireAdmin();
+  const cohortId = String(formData.get("cohortId") ?? "");
+  if (!cohortId) return;
+  const code = String(formData.get("code") ?? "").trim();
+  if (formData.get("clear") === "1" || !code) {
+    await setCohortJoinCode(cohortId, null);
+  } else if (JOIN_CODE_RE.test(code)) {
+    await setCohortJoinCode(cohortId, code);
+  } else {
+    return; // 잘못된 형식은 무시 (입력칸 pattern 으로 1차 차단)
+  }
   refresh();
 }
 

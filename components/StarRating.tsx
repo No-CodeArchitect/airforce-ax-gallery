@@ -23,7 +23,7 @@ export default function StarRating({
     <div className="flex items-center justify-between gap-4">
       <span className="flex shrink-0 flex-col">
         <span className="whitespace-nowrap text-sm font-semibold text-white">{label}</span>
-        {hint && <span className="whitespace-nowrap text-[11px] text-white/40">{hint}</span>}
+        {hint && <span className="whitespace-nowrap text-[11px] text-white/60">{hint}</span>}
       </span>
       <div className="flex items-center gap-1">
         <input type="hidden" name={name} value={value} />
@@ -38,7 +38,7 @@ export default function StarRating({
             onMouseLeave={() => setHover(0)}
             className={`text-2xl leading-none transition ${
               disabled ? "cursor-not-allowed" : "cursor-pointer hover:scale-110"
-            } ${n <= active ? "text-gold" : "text-white/20"}`}
+            } ${n <= active ? "text-accent" : "text-white/20"}`}
           >
             ★
           </button>

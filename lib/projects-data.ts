@@ -55,6 +55,7 @@ export interface ProjectRecord {
   ai: AiResult | null; // null이면 갤러리에 아직 안 보임
   thumbUrl: string | null; // 교육생이 올린 썸네일(대표 이미지) 공개 URL
   thumbPath: string | null; // 스토리지 경로 (교체·삭제용)
+  securityAck: boolean; // 보안 정보 없음 확인 (등록 시 필수)
   error: string | null;
   submittedAt: string;
   updatedAt: string;
@@ -120,6 +121,7 @@ type Row = {
   ai: AiResult | null;
   thumb_url: string | null;
   thumb_path: string | null;
+  security_ack?: boolean | null; // 마이그레이션 전에는 없을 수 있음
   error: string | null;
   submitted_at: string;
   updated_at: string;
@@ -138,6 +140,7 @@ const fromRow = (r: Row): ProjectRecord => ({
   ai: r.ai,
   thumbUrl: r.thumb_url,
   thumbPath: r.thumb_path,
+  securityAck: !!r.security_ack,
   error: r.error,
   submittedAt: r.submitted_at,
   updatedAt: r.updated_at,
@@ -156,6 +159,7 @@ const toRow = (r: ProjectRecord): Row => ({
   ai: r.ai,
   thumb_url: r.thumbUrl,
   thumb_path: r.thumbPath,
+  security_ack: r.securityAck,
   error: r.error,
   submitted_at: r.submittedAt,
   updated_at: r.updatedAt,
@@ -285,6 +289,7 @@ export async function saveSubmission(input: {
   authorName: string;
   submission: Submission;
   thumb?: { url: string; path: string }; // 새로 올린 썸네일 (없으면 기존 유지)
+  securityAck: boolean;
 }): Promise<ProjectRecord> {
   const id = recordIdFor(input.authorId);
   const prev = await getRecord(id);
@@ -295,6 +300,7 @@ export async function saveSubmission(input: {
         authorName: input.authorName,
         submission: input.submission,
         ...(input.thumb ? { thumbUrl: input.thumb.url, thumbPath: input.thumb.path } : {}),
+        securityAck: input.securityAck,
         needsAnalysis: true,
         status: prev.ai ? prev.status : "pending",
         error: null,
@@ -311,6 +317,7 @@ export async function saveSubmission(input: {
         ai: null,
         thumbUrl: input.thumb?.url ?? null,
         thumbPath: input.thumb?.path ?? null,
+        securityAck: input.securityAck,
         error: null,
         submittedAt: now,
         updatedAt: now,

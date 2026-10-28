@@ -117,8 +117,8 @@ export default function ThumbnailUploader({
         }}
         className={`relative flex aspect-[16/10] w-full items-center justify-center overflow-hidden rounded-xl border-2 border-dashed transition ${
           compact ? "max-w-[160px]" : ""
-        } ${over ? "border-gold bg-gold/10" : "border-white/15 bg-coal-soft"} ${
-          disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer hover:border-gold/60"
+        } ${over ? "border-accent bg-accent/10" : "border-white/15 bg-surface-soft"} ${
+          disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer hover:border-accent/60"
         }`}
       >
         {preview ? (
@@ -132,18 +132,18 @@ export default function ThumbnailUploader({
                 <p className="mt-2 text-sm font-semibold text-white/80">
                   썸네일 이미지를 끌어다 놓거나 클릭해서 선택
                 </p>
-                <p className="mt-1 text-xs text-white/40">가로형 16:10 권장 (예: 1280×800) · jpg·png·webp</p>
+                <p className="mt-1 text-xs text-white/60">가로형 16:10 권장 (예: 1280×800) · jpg·png·webp</p>
               </>
             )}
           </div>
         )}
         {busy && (
-          <div className="absolute inset-0 flex items-center justify-center bg-night/70 text-sm font-bold text-gold">
+          <div className="absolute inset-0 flex items-center justify-center bg-base/70 text-sm font-bold text-accent">
             {progress}%
           </div>
         )}
         {preview && !busy && !disabled && !compact && (
-          <span className="absolute bottom-2 right-2 rounded-full bg-night/80 px-2.5 py-1 text-xs font-semibold text-white/80">
+          <span className="absolute bottom-2 right-2 rounded-full bg-base/80 px-2.5 py-1 text-xs font-semibold text-white/80">
             클릭해서 바꾸기
           </span>
         )}

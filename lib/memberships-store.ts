@@ -145,7 +145,7 @@ export async function requestMembership(input: {
   const taken = all.some(
     (m) => m.googleSub !== input.googleSub && m.status !== "rejected" && normNick(m.nickname) === normNick(input.nickname)
   );
-  if (taken) return { ok: false, error: "이 섹션에서 이미 쓰는 닉네임입니다. 다른 닉네임을 정해 주세요." };
+  if (taken) return { ok: false, error: "이 회차에서 이미 쓰는 닉네임입니다. 다른 닉네임을 정해 주세요." };
 
   const m: Membership = {
     id: prev?.id ?? `ms_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 7)}`,

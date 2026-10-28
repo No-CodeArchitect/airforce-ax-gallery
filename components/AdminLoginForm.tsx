@@ -29,17 +29,17 @@ export default function AdminLoginForm() {
             autoCorrect="off"
             spellCheck={false}
             required
-            className="w-full rounded-lg border border-white/15 bg-coal-soft py-2.5 pl-3 pr-16 text-sm text-white outline-none focus:border-gold focus:ring-2 focus:ring-gold/20"
+            className="w-full rounded-lg border border-white/15 bg-surface-soft py-2.5 pl-3 pr-16 text-sm text-white outline-none focus:border-accent focus:ring-2 focus:ring-accent/20"
           />
           <button
             type="button"
             onClick={() => setShow((v) => !v)}
-            className="absolute right-2 top-1/2 -translate-y-1/2 rounded px-2 py-1 text-xs font-semibold text-white/50 hover:text-gold"
+            className="absolute right-2 top-1/2 -translate-y-1/2 rounded px-2 py-1 text-xs font-semibold text-white/60 hover:text-accent"
           >
             {show ? "숨기기" : "보기"}
           </button>
         </div>
-        <p className="text-xs text-white/40">
+        <p className="text-xs text-white/60">
           &lsquo;보기&rsquo;를 눌러 입력한 글자가 맞는지(한/영 상태 포함) 확인하세요.
         </p>
       </div>
@@ -51,7 +51,7 @@ export default function AdminLoginForm() {
       <button
         type="submit"
         disabled={pending}
-        className="rounded-lg bg-gold px-4 py-2.5 text-sm font-bold text-night transition hover:bg-gold-soft disabled:opacity-60"
+        className="rounded-lg bg-accent px-4 py-2.5 text-sm font-bold text-on-accent transition hover:bg-accent-soft disabled:opacity-60"
       >
         {pending ? "확인 중…" : "관리자 로그인"}
       </button>

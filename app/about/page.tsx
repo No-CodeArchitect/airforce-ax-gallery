@@ -1,132 +1,112 @@
+import type { Metadata } from "next";
 import SiteHeader from "@/components/site/SiteHeader";
 import SiteFooter from "@/components/site/SiteFooter";
+import MediaEmbed from "@/components/site/MediaEmbed";
+import { Eyebrow } from "@/components/site/Brand";
+import { FlightPlan, OutcomeCards } from "@/components/site/DayBlocks";
+import { getAboutMedia } from "@/lib/media-items";
+import { siteConfig, shortDate, sortieState, todayKst } from "@/lib/site-config";
 
-function Eyebrow({ children }: { children: React.ReactNode }) {
+export const metadata: Metadata = { title: "특강 소개" };
+export const dynamic = "force-dynamic";
+
+const STATE_LABEL = { upcoming: "예정", today: "오늘 비행 중", done: "완료" } as const;
+
+export default async function AboutPage() {
+  const video = await getAboutMedia(); // 관리자가 지정한 대표 영상 (없으면 숨김)
+  const today = todayKst();
+  const o = siteConfig.overview;
+
   return (
-    <div className="flex items-center gap-2">
-      <span className="inline-block h-1.5 w-1.5 rounded-full bg-gold" />
-      <span className="text-xs font-bold uppercase tracking-[0.2em] text-gold">
-        {children}
-      </span>
-    </div>
-  );
-}
-
-// 3개 트랙 (드라이브 자료 기반: AI 리더십 / 정책·제도 / AI·SW 프로젝트)
-const TRACKS = [
-  {
-    name: "AI 리더십",
-    desc: "지휘관·간부가 AI 시대의 의사결정과 정책 방향을 이해하는 리더십 과정. 저녁 화상·소집 중심으로 운영합니다.",
-  },
-  {
-    name: "정책·제도 수립",
-    desc: "국방 AI 정책과 제도를 설계하고 실무에 적용하는 과정. 소집교육과 소양평가, 실습으로 이어집니다.",
-  },
-  {
-    name: "AI·SW 프로젝트",
-    desc: "국방 AI 혁신주제를 정하고 연구실 배정 후 실제 결과물을 개발·발표하는 과정. 바이브코딩 결과물이 여기서 나옵니다.",
-  },
-];
-
-// 진행 흐름 (2024 일정표 기반)
-const FLOW = [
-  "입과식",
-  "온라인·화상 기본교육",
-  "소집교육 · AI 실습",
-  "현장학습 · 특강",
-  "중간발표회",
-  "프로젝트 수행결과 발표",
-  "자체 경연대회",
-  "최종발표회 · 수료식",
-];
-
-// 연혁
-const HISTORY = [
-  { year: "2024", note: "군 특화 AI 교육 시작 · 3개 트랙 운영(9~12월)" },
-  { year: "2025", note: "과정 지속 · 온라인 플랫폼(K-DAP) 학습 확대" },
-  { year: "2026", note: "정책제도 1~3기 · 리더십 · AI·SW 프로젝트 과정 운영" },
-];
-
-export default function AboutPage() {
-  return (
-    <div className="min-h-screen bg-night text-white">
+    <div className="min-h-screen bg-base text-white">
       <SiteHeader />
 
       {/* 개요 */}
-      <section className="border-b border-white/10 bg-night-soft">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
-          <Eyebrow>국방 AI 인재양성사업</Eyebrow>
-          <h1 className="mt-4 text-4xl font-black tracking-tight sm:text-5xl">
-            군 특화 AI 보수교육
-          </h1>
-          <p className="mt-5 max-w-2xl leading-relaxed text-white/60">
-            군 장병이 AI를 &lsquo;배우는&rsquo; 데 그치지 않고 직접 만들어
-            국방 현장의 문제를 푸는 역량강화 과정입니다. 온라인 플랫폼(K-DAP)
-            학습과 집합·화상 교육, 현장학습·특강을 거쳐, 마지막에는 각자
-            바이브코딩으로 완성한 결과물을 발표합니다.
-          </p>
+      <section className="relative overflow-hidden border-b border-white/10">
+        <div className="sky-bg absolute inset-0" />
+        <div className="hud-grid absolute inset-0" />
+        <div className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-2">
+          <div>
+            <Eyebrow>Briefing</Eyebrow>
+            <h1 className="mt-4 text-4xl font-black tracking-tight sm:text-5xl">{siteConfig.name}</h1>
+            <p className="mt-5 max-w-2xl leading-relaxed text-white/75">
+              코딩을 몰라도 괜찮아요. 오늘 하루, 내 업무를 돕는 첫 AI 도구를 직접 만듭니다. 아침에는
+              Claude에게 일을 맡기는 법을 익히고, 오후에는 말로 설명한 아이디어를 바이브코딩으로 웹앱으로
+              만들어 띄운 뒤, 저녁에는 동료와 함께 디브리핑합니다.
+            </p>
+            <dl className="mt-8 grid grid-cols-1 gap-3 text-sm sm:grid-cols-3">
+              {[
+                ["대상", o.audience],
+                ["형식", o.format],
+                ["제공", o.provided],
+              ].map(([k, v]) => (
+                <div key={k} className="rounded-xl bg-base/70 px-4 py-3 ring-1 ring-white/10">
+                  <dt className="text-xs font-bold text-accent">{k}</dt>
+                  <dd className="mt-1 leading-relaxed text-white/85">{v}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+          {video && <MediaEmbed item={video} className="rounded-xl ring-1 ring-white/10" />}
         </div>
       </section>
 
-      {/* 3개 트랙 */}
+      {/* 기대효과 */}
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        <Eyebrow>Tracks</Eyebrow>
-        <h2 className="mt-4 text-2xl font-black sm:text-3xl">3개 트랙</h2>
-        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-          {TRACKS.map((t, i) => (
-            <div key={t.name} className="rounded-xl bg-coal p-6 ring-1 ring-white/10">
-              <div className="text-3xl font-black text-gold/30">
-                0{i + 1}
-              </div>
-              <div className="mt-2 text-lg font-bold text-white">{t.name}</div>
-              <p className="mt-2 text-sm leading-relaxed text-white/60">
-                {t.desc}
-              </p>
-            </div>
-          ))}
+        <Eyebrow>After one day</Eyebrow>
+        <h2 className="mt-4 text-2xl font-black sm:text-3xl">{siteConfig.outcomesTitle}</h2>
+        <div className="mt-8">
+          <OutcomeCards />
         </div>
       </section>
 
-      {/* 진행 방식 */}
-      <section className="border-t border-white/10 bg-night-soft">
+      {/* 하루 비행 계획 */}
+      <section className="border-t border-white/10 bg-base-soft">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-          <Eyebrow>How it works</Eyebrow>
-          <h2 className="mt-4 text-2xl font-black sm:text-3xl">진행 방식</h2>
-          <p className="mt-3 max-w-2xl text-sm text-white/50">
-            약 3개월간 온라인·집합 교육을 병행하며, 아래 흐름으로 진행됩니다.
+          <Eyebrow>Flight plan</Eyebrow>
+          <h2 className="mt-4 text-2xl font-black sm:text-3xl">{siteConfig.flightPlanTitle}</h2>
+          <p className="mt-3 text-sm text-white/60">
+            {siteConfig.day.start} 시작 · 점심 {siteConfig.day.lunch.join("~")} · {siteConfig.day.end} 종료. 세부 시각은
+            현장 상황에 따라 조정될 수 있어요.
           </p>
-          <ol className="mt-8 flex flex-wrap items-center gap-x-2 gap-y-3">
-            {FLOW.map((step, i) => (
-              <li key={step} className="flex items-center gap-2">
-                <span className="rounded-lg bg-coal px-3 py-2 text-sm font-medium text-white ring-1 ring-white/10">
-                  <span className="mr-1.5 text-xs font-bold text-gold">
-                    {i + 1}
-                  </span>
-                  {step}
-                </span>
-                {i < FLOW.length - 1 && (
-                  <span className="text-white/25">→</span>
-                )}
-              </li>
-            ))}
-          </ol>
+          <div className="mt-10">
+            <FlightPlan />
+          </div>
         </div>
       </section>
 
-      {/* 연혁 */}
+      {/* 일정표 */}
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        <Eyebrow>History</Eyebrow>
-        <h2 className="mt-4 text-2xl font-black sm:text-3xl">연혁</h2>
-        <ul className="mt-8 space-y-4">
-          {HISTORY.map((h) => (
-            <li key={h.year} className="flex gap-6 border-b border-white/10 pb-4">
-              <span className="w-16 shrink-0 text-lg font-black text-gold">
-                {h.year}
-              </span>
-              <span className="flex-1 text-white/70">{h.note}</span>
-            </li>
-          ))}
-        </ul>
+        <Eyebrow>Schedule</Eyebrow>
+        <h2 className="mt-4 text-2xl font-black sm:text-3xl">교육 일정</h2>
+        <div className="mt-8 overflow-hidden rounded-2xl ring-1 ring-white/10">
+          <table className="w-full text-left text-sm">
+            <thead className="bg-surface text-xs text-white/60">
+              <tr>
+                <th className="px-4 py-3 font-semibold">회차</th>
+                <th className="px-4 py-3 font-semibold">날짜</th>
+                <th className="px-4 py-3 font-semibold">지역</th>
+                <th className="px-4 py-3 text-right font-semibold">상태</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-white/10">
+              {siteConfig.sorties.map((s) => {
+                const st = sortieState(s, today);
+                return (
+                  <tr key={s.no} className={st === "today" ? "bg-signal/10" : ""}>
+                    <td className="px-4 py-3 font-mono font-bold text-accent">{siteConfig.sortieLabel(s.no)}</td>
+                    <td className="px-4 py-3 font-mono text-white/85">{shortDate(s.date)}</td>
+                    <td className="px-4 py-3 font-semibold text-white">{s.city}</td>
+                    <td className={`px-4 py-3 text-right text-xs font-semibold ${st === "today" ? "text-signal" : "text-white/60"}`}>
+                      {STATE_LABEL[st]}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+        <p className="mt-6 text-sm text-white/60">운영: {siteConfig.operator}</p>
       </section>
 
       <SiteFooter />

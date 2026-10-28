@@ -101,11 +101,11 @@ export default function SubmissionsPanel({
     <div>
       <div className="flex flex-wrap items-center gap-2">
         <h3 className="text-sm font-bold text-white">작품 등록 · AI 분석</h3>
-        <span className="text-xs text-white/50">
+        <span className="text-xs text-white/60">
           등록 {rows.length}/{rosterCount} · 공개 {publishedCount} · 분석 대기 {queue.length}
         </span>
       </div>
-      <p className="mt-1 text-xs text-white/50">
+      <p className="mt-1 text-xs text-white/60">
         교육생이 갤러리의 「작품 등록」으로 올린 작품입니다. 처음 등록한 작품은 AI가 자동으로
         분석해 바로 공개합니다. 교육생이 수정한 작품과 분석에 실패한 작품만 「분석 실행」으로 다시
         반영하세요 (1건당 약 30초~1분, 진행 중 창을 닫지 마세요). 썸네일을 눌러 관리자가 직접 교체할 수 있습니다.
@@ -121,7 +121,7 @@ export default function SubmissionsPanel({
           type="button"
           disabled={busy || queue.length === 0}
           onClick={() => runQueue(queue.map((r) => r.id))}
-          className="rounded-lg bg-gold px-4 py-2 text-sm font-bold text-night transition hover:bg-gold-soft disabled:cursor-not-allowed disabled:opacity-40"
+          className="rounded-lg bg-accent px-4 py-2 text-sm font-bold text-on-accent transition hover:bg-accent-soft disabled:cursor-not-allowed disabled:opacity-40"
         >
           {queue.length > 0 ? `대기 ${queue.length}건 분석 실행` : "분석할 작품 없음"}
         </button>
@@ -153,12 +153,12 @@ export default function SubmissionsPanel({
                   <div className="min-w-0">
                     <div className="truncate font-semibold text-white">
                       {r.title}
-                      <span className="ml-2 text-xs font-normal text-white/40">{r.authorName}</span>
+                      <span className="ml-2 text-xs font-normal text-white/60">{r.authorName}</span>
                     </div>
                     <div className="flex flex-wrap items-center gap-2 text-xs">
                       <span className={`rounded-full px-2 py-0.5 font-semibold ${tone}`}>{label}</span>
                       {r.mock && r.published && <span className="text-amber-300/80">임시 요약</span>}
-                      <a href={r.liveUrl} target="_blank" rel="noopener noreferrer" className="truncate text-white/40 hover:text-gold">
+                      <a href={r.liveUrl} target="_blank" rel="noopener noreferrer" className="truncate text-white/60 hover:text-accent">
                         {r.liveUrl}
                       </a>
                     </div>
@@ -174,7 +174,7 @@ export default function SubmissionsPanel({
                     type="button"
                     disabled={busy}
                     onClick={() => runQueue([r.id])}
-                    className="rounded px-2 py-1 text-xs font-semibold text-gold hover:bg-gold/10 disabled:opacity-40"
+                    className="rounded px-2 py-1 text-xs font-semibold text-accent hover:bg-accent/10 disabled:opacity-40"
                   >
                     {r.published ? "재분석" : "분석"}
                   </button>
@@ -202,7 +202,7 @@ export default function SubmissionsPanel({
                     }}
                   >
                     <input type="hidden" name="id" value={r.id} />
-                    <button disabled={busy} className="rounded px-2 py-1 text-xs text-white/40 hover:text-red-400 disabled:opacity-40">
+                    <button disabled={busy} className="rounded px-2 py-1 text-xs text-white/60 hover:text-red-400 disabled:opacity-40">
                       삭제
                     </button>
                   </form>
@@ -214,7 +214,7 @@ export default function SubmissionsPanel({
       )}
 
       {missing.length > 0 && (
-        <p className="mt-2 text-xs text-white/40">
+        <p className="mt-2 text-xs text-white/60">
           미등록 ({missing.length}): {missing.join(", ")}
         </p>
       )}

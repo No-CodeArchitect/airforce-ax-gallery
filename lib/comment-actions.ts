@@ -26,7 +26,7 @@ export async function postComment(
   // 이 섹션에서 수락된 교육생만 댓글 (섹션 간 분리)
   const student = await getStudent(project.cohortId);
   if (!student) {
-    return { ok: false, error: "이 섹션에 가입·수락된 교육생만 댓글을 남길 수 있습니다." };
+    return { ok: false, error: "이 회차에 가입·수락된 교육생만 댓글을 남길 수 있습니다." };
   }
 
   const body = String(formData.get("body") ?? "").trim();
