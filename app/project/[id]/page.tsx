@@ -120,7 +120,7 @@ export default async function ProjectDetailPage({
             <div className="flex flex-wrap items-center gap-2">
               {rankRevealed && rank !== null && (
                 <span className="inline-flex items-center rounded-full bg-accent/20 px-2.5 py-0.5 text-sm font-bold text-accent">
-                  {rank === 1 ? "🥇 ACE ·" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : ""}{" "}
+                  {rank === 1 ? "🥇" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : ""}{" "}
                   {rank}위
                 </span>
               )}

@@ -50,10 +50,10 @@ export default async function SectionsPage() {
                     <div className="flex items-center gap-2">
                       <span className={`inline-block h-1.5 w-1.5 rounded-full ${isToday ? "bg-signal" : "bg-accent"}`} />
                       {c.rankRevealed ? (
-                        <span className="text-xs font-bold text-signal">디브리핑 · 순위 공개</span>
+                        <span className="text-xs font-bold text-signal">순위 공개</span>
                       ) : (
                         <span className="text-xs font-medium text-white/55">
-                          {isToday ? "오늘 비행 중" : c.scoringOpen ? "채점 진행 중" : "채점 마감"}
+                          {isToday ? "오늘 진행" : c.scoringOpen ? "채점 진행 중" : "채점 마감"}
                         </span>
                       )}
                       {date && <span className="ml-auto font-mono text-xs text-white/60">{shortDate(date)}</span>}

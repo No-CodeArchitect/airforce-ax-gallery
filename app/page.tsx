@@ -2,9 +2,9 @@ import Link from "next/link";
 import SiteHeader from "@/components/site/SiteHeader";
 import SiteFooter from "@/components/site/SiteFooter";
 import MediaEmbed from "@/components/site/MediaEmbed";
-import Altimeter from "@/components/site/Altimeter";
+import DayCompare from "@/components/site/DayCompare";
 import { Eyebrow } from "@/components/site/Brand";
-import { FlightPlan, OutcomeCards, SortieStrip } from "@/components/site/DayBlocks";
+import { DaySchedule, OutcomeCards, SortieStrip } from "@/components/site/DayBlocks";
 import { firstImage } from "@/lib/media";
 import { listMedia } from "@/lib/media-items";
 import { getProjects } from "@/lib/projects-data";
@@ -50,7 +50,6 @@ export default async function HomePage() {
     cohorts.filter((c) => c.scoringOpen && !c.rankRevealed).map((c) => c.id)
   );
   const hasData = stats.projects > 0;
-  const feedbackPerProject = hasData ? Math.round(stats.feedback / stats.projects) || null : null;
   const cohortName = new Map(cohorts.map((c) => [c.id, c.name]));
 
   return (
@@ -70,10 +69,6 @@ export default async function HomePage() {
           <>
             <div className="sky-bg absolute inset-0" />
             <div className="hud-grid absolute inset-0" />
-            {/* 항적(contrail) 사선 */}
-            <span className="contrail left-[-5%] top-[22%] w-[55%] -rotate-[14deg] opacity-30" aria-hidden />
-            <span className="contrail left-[30%] top-[12%] w-[45%] -rotate-[14deg] opacity-20" aria-hidden />
-            <span className="contrail bottom-[18%] right-[-8%] w-[40%] -rotate-[14deg] opacity-25" aria-hidden />
           </>
         )}
         <div className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[1.25fr_1fr]">
@@ -103,14 +98,14 @@ export default async function HomePage() {
             </div>
           </div>
           <div className="flex justify-center lg:justify-end">
-            <Altimeter feedbackPerProject={feedbackPerProject} />
+            <DayCompare />
           </div>
         </div>
       </section>
 
       {/* 5.2 기대효과 4카드 */}
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
-        <Eyebrow>After one day</Eyebrow>
+        <Eyebrow>Outcomes</Eyebrow>
         <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">{siteConfig.outcomesTitle}</h2>
         <div className="mt-8">
           <OutcomeCards />
@@ -144,27 +139,27 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 5.4 하루 비행 계획 */}
+      {/* 5.4 하루 일정 */}
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
-        <Eyebrow>Flight plan</Eyebrow>
+        <Eyebrow>Schedule</Eyebrow>
         <div className="mt-4 flex flex-wrap items-end justify-between gap-2">
-          <h2 className="text-3xl font-black tracking-tight sm:text-4xl">{siteConfig.flightPlanTitle}</h2>
+          <h2 className="text-3xl font-black tracking-tight sm:text-4xl">{siteConfig.scheduleTitle}</h2>
           <span className="font-mono text-sm text-white/60">
-            {siteConfig.day.start} TAKEOFF → {siteConfig.day.end} LANDING
+            {siteConfig.day.start} – {siteConfig.day.end}
           </span>
         </div>
         <div className="mt-10">
-          <FlightPlan />
+          <DaySchedule />
         </div>
       </section>
 
-      {/* 5.5 최근 착륙한 작품 */}
+      {/* 5.5 최근 등록된 작품 */}
       <section className="border-t border-white/10 bg-base-soft">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
           <div className="flex items-end justify-between">
             <div>
-              <Eyebrow>Just landed</Eyebrow>
-              <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">최근 착륙한 작품</h2>
+              <Eyebrow>Gallery</Eyebrow>
+              <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">최근 등록된 작품</h2>
             </div>
             <Link href="/sections" className="hidden text-sm font-bold text-accent hover:text-accent-soft sm:inline">
               전체 보기 →
@@ -178,7 +173,7 @@ export default async function HomePage() {
             </div>
           ) : (
             <p className="mt-8 rounded-2xl bg-surface px-6 py-12 text-center text-sm text-white/65 ring-1 ring-white/10">
-              아직 착륙한 작품이 없어요. 첫 착륙을 기다리는 중 🛬
+              아직 등록된 작품이 없습니다. 1회차 교육 당일부터 작품이 올라옵니다.
             </p>
           )}
           <Link
@@ -190,11 +185,11 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 5.6 ACE 보드 — 순위 공개된 회차만 */}
+      {/* 5.6 회차별 최우수 작품 — 순위 공개된 회차만 */}
       {aceBoard.length > 0 && (
         <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
-          <Eyebrow>Hall of aces</Eyebrow>
-          <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">회차별 ACE</h2>
+          <Eyebrow>Best works</Eyebrow>
+          <h2 className="mt-4 text-3xl font-black tracking-tight sm:text-4xl">회차별 최우수 작품</h2>
           <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {aceBoard.flatMap(({ cohort, sortie, aces }) =>
               aces.map((p) => (
@@ -203,15 +198,15 @@ export default async function HomePage() {
                   href={`/project/${p.id}`}
                   className="group relative overflow-hidden rounded-2xl bg-surface p-5 ring-1 ring-signal/40 transition hover:-translate-y-0.5 hover:ring-signal"
                 >
-                  <div className="flex items-center gap-2 font-mono text-xs font-bold tracking-wider">
+                  <div className="flex items-center gap-2 text-xs font-bold">
                     <span className="text-white/65">
                       {cohort.sessionNo ? siteConfig.sortieLabel(cohort.sessionNo) : cohortName.get(cohort.id)}
                     </span>
                     {(cohort.location ?? sortie?.city) && (
-                      <span className="font-sans text-white/65">· {cohort.location ?? sortie?.city}</span>
+                      <span className="text-white/65">· {cohort.location ?? sortie?.city}</span>
                     )}
                     <span className="ml-auto rounded-full bg-signal px-2 py-0.5 text-on-accent">
-                      ACE{aces.length > 1 ? " (공동)" : ""}
+                      최우수{aces.length > 1 ? " (공동)" : ""}
                     </span>
                   </div>
                   <h3 className="mt-4 text-xl font-black text-white group-hover:text-signal">{p.title}</h3>
@@ -252,7 +247,7 @@ export default async function HomePage() {
                   <MediaEmbed item={m} />
                 </div>
               ))
-            : ["첫 비행 현장 사진 자리", "디브리핑 현장 영상 자리"].map((l, i) => (
+            : ["교육 현장 사진 자리", "발표 현장 영상 자리"].map((l, i) => (
                 <ImgPlaceholder key={i} label={l} />
               ))}
         </div>

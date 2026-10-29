@@ -13,7 +13,7 @@ body {
 }
 
 @layer components {
-  /* 하늘 그라디언트 + 항적(contrail) 사선 + 은은한 HUD 격자 — 순수 CSS */
+  /* 은은한 네이비 그라디언트 + 옅은 격자 — 순수 CSS */
   .sky-bg {
     background-image:
       radial-gradient(70% 60% at 85% 0%, rgba(79, 179, 255, 0.22), transparent 65%),
@@ -27,19 +27,12 @@ body {
     background-size: 56px 56px;
     opacity: 0.05;
   }
-  .contrail {
-    position: absolute;
-    height: 2px;
-    border-radius: 9999px;
-    background: linear-gradient(90deg, transparent, rgba(244, 248, 252, 0.5) 70%, rgba(244, 248, 252, 0.85));
-  }
-  /* Eyebrow 앞 짧은 사선 마커(항적) */
+  /* Eyebrow 앞 짧은 가로 마커 */
   .eyebrow-mark {
     display: inline-block;
-    width: 14px;
+    width: 18px;
     height: 2px;
     border-radius: 9999px;
-    transform: rotate(-30deg);
     @apply bg-accent;
   }
 }

@@ -15,7 +15,6 @@ export default function EduBanner({ compact = false }: { compact?: boolean }) {
       }}
     >
       <div className="hud-grid pointer-events-none absolute inset-0" />
-      <span className="contrail right-[8%] top-[28%] w-1/3 -rotate-12 opacity-40" aria-hidden />
       <div className="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <span className="inline-block rounded-full bg-accent px-2.5 py-0.5 text-[11px] font-black tracking-wider text-on-accent">

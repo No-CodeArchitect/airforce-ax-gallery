@@ -105,11 +105,11 @@ alter table memberships enable row level security;
 
 -- 5개 회차 시드 (npm run seed:sorties 와 같은 값)
 insert into cohorts (id, slug, name, scoring_open, rank_revealed, min_raters, created_at, session_no, held_on, location) values
-  ('co_sortie01', 'sortie-01', 'SORTIE 01 · 평택', true, false, 3, '2026-10-30T00:00:00Z', 1, '2026-10-30', '평택'),
-  ('co_sortie02', 'sortie-02', 'SORTIE 02 · 충주', true, false, 3, '2026-11-06T00:00:00Z', 2, '2026-11-06', '충주'),
-  ('co_sortie03', 'sortie-03', 'SORTIE 03 · 수원', true, false, 3, '2026-11-13T00:00:00Z', 3, '2026-11-13', '수원'),
-  ('co_sortie04', 'sortie-04', 'SORTIE 04 · 서산', true, false, 3, '2026-11-20T00:00:00Z', 4, '2026-11-20', '서산'),
-  ('co_sortie05', 'sortie-05', 'SORTIE 05 · 대구', true, false, 3, '2026-11-27T00:00:00Z', 5, '2026-11-27', '대구')
+  ('co_sortie01', 'sortie-01', '1회차 · 평택', true, false, 3, '2026-10-30T00:00:00Z', 1, '2026-10-30', '평택'),
+  ('co_sortie02', 'sortie-02', '2회차 · 충주', true, false, 3, '2026-11-06T00:00:00Z', 2, '2026-11-06', '충주'),
+  ('co_sortie03', 'sortie-03', '3회차 · 수원', true, false, 3, '2026-11-13T00:00:00Z', 3, '2026-11-13', '수원'),
+  ('co_sortie04', 'sortie-04', '4회차 · 서산', true, false, 3, '2026-11-20T00:00:00Z', 4, '2026-11-20', '서산'),
+  ('co_sortie05', 'sortie-05', '5회차 · 대구', true, false, 3, '2026-11-27T00:00:00Z', 5, '2026-11-27', '대구')
 on conflict (slug) do nothing;
 
 -- 확인용: 아래 결과에 6개 테이블과 회차 5행이 보이면 성공

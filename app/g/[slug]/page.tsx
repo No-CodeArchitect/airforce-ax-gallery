@@ -89,11 +89,11 @@ export default async function SectionGalleryPage({
           <div className="mt-2 flex items-start justify-between gap-4">
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-2">
-                <span className="rounded-md bg-accent/15 px-2 py-0.5 font-mono text-xs font-bold tracking-wider text-accent">
+                <span className="rounded-md bg-accent/15 px-2 py-0.5 text-xs font-bold text-accent">
                   {cohort.name}
                 </span>
                 {cohort.rankRevealed ? (
-                  <span className="text-xs font-bold text-signal">🏅 디브리핑 · 순위 공개</span>
+                  <span className="text-xs font-bold text-signal">순위 공개</span>
                 ) : (
                   <span className="text-xs font-medium text-white/60">
                     {cohort.scoringOpen
@@ -106,8 +106,8 @@ export default async function SectionGalleryPage({
                 작품 갤러리
               </h1>
               <p className="text-sm text-white/60">
-                오늘 함께 비행한 동료들의 작품을 둘러보고, 완성도와 창의성을 채점하고,
-                댓글을 남겨 보세요.
+                같은 회차 동료들의 작품을 둘러보고, 완성도와 창의성을 채점하고,
+                댓글을 남겨 주세요.
               </p>
             </div>
 
@@ -161,13 +161,13 @@ export default async function SectionGalleryPage({
             <span className="text-xs font-bold uppercase tracking-[0.2em] text-accent">Timebox</span>
             {cohort.submitDueAt && (
               <span className="text-white/75">
-                🛬 착륙 신고(작품 등록) 마감{" "}
+                작품 등록 마감{" "}
                 <b className="font-mono text-white">{kstTime(cohort.submitDueAt)}</b>
               </span>
             )}
             {cohort.scoreDueAt && (
               <span className="text-white/75">
-                ⭐ 채점 마감 <b className="font-mono text-white">{kstTime(cohort.scoreDueAt)}</b>
+                채점 마감 <b className="font-mono text-white">{kstTime(cohort.scoreDueAt)}</b>
               </span>
             )}
           </div>
@@ -176,7 +176,7 @@ export default async function SectionGalleryPage({
 
       <div className="mx-auto max-w-6xl px-4 pt-6 sm:px-6">
         <div className="flex flex-wrap gap-3 text-sm">
-          <Stat label="착륙한 작품" value={`${total}개`} />
+          <Stat label="등록 작품" value={`${total}개`} />
           <Stat label="NEW" value={`${newCount}개`} accent />
           {student && (
             <Stat label="내가 채점함" value={`${scoredCount} / ${scorable}`} />
@@ -212,7 +212,7 @@ export default async function SectionGalleryPage({
       <section className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
         {projects.length === 0 ? (
           <p className="rounded-2xl bg-surface px-6 py-16 text-center text-sm text-white/60 ring-1 ring-white/10">
-            아직 착륙한 작품이 없어요. 첫 착륙을 기다리는 중 🛬
+            아직 등록된 작품이 없습니다.
             <span className="mt-2 block text-xs text-white/60">
               작품을 등록하면 AI가 분석해 1분 안에 카드로 올라옵니다.
             </span>

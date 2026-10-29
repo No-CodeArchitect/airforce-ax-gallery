@@ -14,8 +14,8 @@ export const dynamic = "force-dynamic";
 
 const STATE_TAG = {
   upcoming: { label: "예정", cls: "bg-white/10 text-white/70" },
-  today: { label: "오늘 비행 중", cls: "bg-signal text-on-accent" },
-  done: { label: "착륙 완료", cls: "bg-accent/15 text-accent" },
+  today: { label: "오늘 진행", cls: "bg-signal text-on-accent" },
+  done: { label: "종료", cls: "bg-accent/15 text-accent" },
 } as const;
 
 // 회차 배열: 회차 DB(섹션)에서 만들고, 아직 DB 에 없는 일정은 site-config 로 채운다.
@@ -50,11 +50,11 @@ export default async function ArchivePage() {
 
       <section className="border-b border-white/10 bg-base-soft">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
-          <Eyebrow>Flight log</Eyebrow>
+          <Eyebrow>Archive</Eyebrow>
           <h1 className="mt-4 text-4xl font-black tracking-tight sm:text-5xl">회차별 기록</h1>
           <p className="mt-5 max-w-2xl leading-relaxed text-white/70">
-            지역을 돌며 다섯 번 출격합니다. 회차마다 하루 동안 착륙한 작품 수와 그날의 ACE, 현장 사진을
-            모았습니다.
+            다섯 개 지역에서 진행하는 회차별 기록입니다. 회차마다 하루 동안 완성된 작품 수와 최우수 작품,
+            현장 사진을 모았습니다.
           </p>
         </div>
       </section>
@@ -66,7 +66,7 @@ export default async function ArchivePage() {
           return (
             <section key={`${r.no}-${r.cohort?.id ?? "plan"}`} className="mb-14 last:mb-0">
               <div className="flex flex-wrap items-center gap-3 border-b border-white/10 pb-4">
-                <h2 className="font-mono text-2xl font-bold text-white">{label}</h2>
+                <h2 className="text-2xl font-black text-white">{label}</h2>
                 {r.city && <span className="text-xl font-black text-white">{r.city}</span>}
                 {r.date && <span className="font-mono text-sm text-white/60">{shortDate(r.date)}</span>}
                 <span className={`rounded-full px-3 py-1 text-xs font-bold ${tag.cls}`}>{tag.label}</span>
@@ -93,7 +93,7 @@ export default async function ArchivePage() {
                       href={`/project/${p.id}`}
                       className="inline-flex items-center gap-2 rounded-full bg-signal/10 px-3 py-1.5 text-sm ring-1 ring-signal/50 hover:bg-signal/20"
                     >
-                      <span className="rounded-full bg-signal px-2 py-0.5 font-mono text-[11px] font-bold text-on-accent">ACE</span>
+                      <span className="rounded-full bg-signal px-2 py-0.5 text-[11px] font-bold text-on-accent">최우수</span>
                       <span className="font-bold text-white">{p.title}</span>
                       <span className="text-white/65">· {p.authorName}</span>
                     </Link>
@@ -117,7 +117,7 @@ export default async function ArchivePage() {
               ) : (
                 <div className="mt-6 flex aspect-[16/5] items-center justify-center rounded-xl bg-white/[0.04] px-4 text-center ring-1 ring-white/10">
                   <span className="text-xs text-white/60">
-                    {r.state === "upcoming" ? "이륙 전 · 현장 사진은 교육 후 올라옵니다" : "현장 사진 준비 중"}
+                    {r.state === "upcoming" ? "교육 후 현장 사진이 올라옵니다" : "현장 사진 준비 중"}
                   </span>
                 </div>
               )}

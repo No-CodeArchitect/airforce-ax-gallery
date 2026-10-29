@@ -1,7 +1,7 @@
 # 공군 AX · AI 입문 특강 갤러리
 
 공군 장병이 **1일 AI 입문 특강**(Claude 코워크 + 바이브코딩)에서 하루 동안 만든 작품을 모으고,
-AI 분석 → 상호 채점·댓글 → 순위(ACE) 공개 → 발표까지 하는 사이트입니다.
+AI 분석 → 상호 채점·댓글 → 순위 공개 → 발표까지 하는 사이트입니다.
 운영: 인공지능연구원(AIRI) · 배포 주소(예정): https://airforce-ax-gallery.vercel.app
 
 원본 `No-CodeArchitect/kaist-vibecoding-gallery`(커밋 `d035d2a`)의 기능을 그대로 쓰고

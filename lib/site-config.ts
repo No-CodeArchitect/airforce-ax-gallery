@@ -8,18 +8,17 @@ export interface Sortie {
   city: string;
 }
 
-export interface FlightStep {
+export interface ScheduleStep {
   time: string;
   label: string;
   desc: string;
-  icon: string; // 이모지 아이콘 (장식)
+  muted?: boolean; // 점심 등 보조 일정
 }
 
 export interface Outcome {
   title: string;
   desc: string;
-  tag: string; // 괄호 속 보조 표기 (Claude 코워크 / 바이브코딩 …)
-  icon: string;
+  tag: string; // 보조 표기 (Claude 코워크 / 바이브코딩 …)
 }
 
 const sorties: Sortie[] = [
@@ -30,7 +29,7 @@ const sorties: Sortie[] = [
   { no: 5, date: "2026-11-27", city: "대구" },
 ];
 
-export const sortieLabel = (n: number) => `SORTIE ${String(n).padStart(2, "0")}`;
+export const sortieLabel = (n: number) => `${n}회차`;
 
 // "10/30(금)" 형식
 export function shortDate(iso: string): string {
@@ -63,13 +62,12 @@ export const siteConfig = {
 
   hero: {
     eyebrow: "공군 AX · AI 입문 특강",
-    // 대안: ["아침엔 처음,", "저녁엔 내 앱."] / ["오늘 이륙,", "오늘 착륙."]
-    headline: ["코딩 0시간.", "하루 뒤, 내 손으로 만든 AI 도구."],
+    headline: ["코딩 경험 없이,", "하루 만에 만드는 나의 AI 업무 도구"],
     sub: "말로 설명하면 앱이 됩니다. 공군 장병들이 단 하루 동안 Claude와 바이브코딩으로 직접 만든 업무 도구를 만나 보세요.",
-    ctaPrimary: "작품 보러 가기 →",
+    ctaPrimary: "작품 갤러리 보기 →",
     ctaSecondary: "우리 부대도 신청하기",
-    before: { time: "09:00", alt: "0 ft", lines: ["코딩 경험 0", "AI는 채팅만 해 봄"] },
-    after: { time: "17:00", alt: "FL 170", lines: ["배포된 내 웹앱 1개", "동료 피드백 n개", "AI 심사평"] },
+    before: { time: "09:00", label: "시작", lines: ["코딩 경험 없음", "AI는 질문·대화 위주로 사용"] },
+    after: { time: "17:00", label: "종료", lines: ["직접 만들어 배포한 웹앱 1개", "동료 평가와 피드백", "AI 심사평"] },
   },
 
   outcomesTitle: "이 하루가 끝나면, 이렇게 달라집니다",
@@ -78,51 +76,47 @@ export const siteConfig = {
       title: "AI에게 일 시키는 법",
       desc: "질문만 하던 AI에게 문서 정리·요약·초안 작성을 맡기는 감각을 익힙니다",
       tag: "Claude 코워크",
-      icon: "🧭",
     },
     {
       title: "아이디어 → 작동하는 앱",
       desc: "코드를 몰라도, 말로 설명한 아이디어가 실제로 돌아가는 웹앱이 됩니다",
       tag: "바이브코딩",
-      icon: "✈️",
     },
     {
       title: "부대로 가져가는 내 도구",
       desc: "내 업무의 불편 하나를 골라, 돌아가서 바로 써 볼 수 있는 도구를 완성합니다",
-      tag: "착륙",
-      icon: "🛬",
+      tag: "실무 적용",
     },
     {
       title: "동료 30명의 피드백",
       desc: "같은 날 함께한 동료들의 채점·댓글과 AI 심사평으로 다음 개선점을 얻습니다",
-      tag: "디브리핑",
-      icon: "🗣️",
+      tag: "상호 평가",
     },
   ] satisfies Outcome[],
 
   stats: {
     title: "하루 만에 나온 결과",
     labels: {
-      projects: "하루 만에 착륙한 작품",
-      pilots: "첫 비행을 마친 장병",
-      feedback: "오간 동료 피드백",
+      projects: "하루 만에 완성된 작품",
+      pilots: "참여 장병",
+      feedback: "동료 평가·피드백",
     },
     note: "모든 작품은 교육 당일 하루 동안 만들어졌습니다.",
     // 아직 데이터가 없을 때 (첫 회차 전)
     empty: (first: Sortie) =>
-      `첫 비행 준비 중 · ${shortDate(first.date).replace(/\(.\)/, "")} ${first.city}에서 이륙합니다`,
+      `${shortDate(first.date).replace(/\(.\)/, "")} ${first.city}에서 1회차가 시작됩니다`,
   },
 
   day: { start: "09:00", lunch: ["12:00", "13:00"], end: "17:00" },
-  flightPlanTitle: "하루 비행 계획",
-  flightPlan: [
-    { time: "09:00", label: "이륙 · 브리핑", desc: "오리엔테이션, Claude 코워크로 AI에게 일 시키기", icon: "🛫" },
-    { time: "10:30", label: "비행 계획", desc: "내 업무 불편 하나 고르기 → 아이디어 정리", icon: "🗺️" },
-    { time: "12:00", label: "급유 🍱", desc: "점심 (12:00~13:00)", icon: "⛽" },
-    { time: "13:00", label: "임무 비행", desc: "바이브코딩으로 만들고 배포하기", icon: "✈️" },
-    { time: "15:30", label: "착륙 신고", desc: "작품 등록 · 상호 채점·댓글", icon: "🛬" },
-    { time: "16:30", label: "디브리핑", desc: "발표 · ACE 공개 · 17:00 귀환(종료)", icon: "🏅" },
-  ] satisfies FlightStep[],
+  scheduleTitle: "하루 일정",
+  schedule: [
+    { time: "09:00", label: "오리엔테이션", desc: "Claude 코워크로 AI에게 업무 맡기기" },
+    { time: "10:30", label: "아이디어 기획", desc: "내 업무의 불편 하나를 골라 만들 도구 정하기" },
+    { time: "12:00", label: "점심", desc: "12:00~13:00", muted: true },
+    { time: "13:00", label: "바이브코딩 실습", desc: "말로 설명해 웹앱을 만들고 배포하기" },
+    { time: "15:30", label: "작품 등록·상호 평가", desc: "갤러리 등록, 동료 채점과 댓글" },
+    { time: "16:30", label: "발표·시상", desc: "우수 작품 발표 후 17:00 종료" },
+  ] satisfies ScheduleStep[],
 
   sorties,
 
@@ -134,7 +128,7 @@ export const siteConfig = {
 
   eduBanner: {
     badge: "교육 신청",
-    title: "우리 부대도 첫 비행을 하고 싶다면",
+    title: "우리 부대도 AI 입문 특강이 필요하다면",
     desc: "부대·기관 단위로 AI 입문 특강을 신청할 수 있습니다. 희망 인원과 시기를 남겨 주시면 인공지능연구원 담당자가 연락드립니다.",
     cta: "교육 신청하기 →",
   },

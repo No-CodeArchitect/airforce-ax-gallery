@@ -11,11 +11,11 @@
 
 ```sql
 -- 회차(섹션) 정보 — 1일 특강 운영용
-alter table cohorts add column if not exists session_no int;              -- 회차 1~5 (SORTIE 번호)
+alter table cohorts add column if not exists session_no int;              -- 회차 번호 1~5
 alter table cohorts add column if not exists held_on date;                -- 교육일
 alter table cohorts add column if not exists location text;               -- 도시명만 (평택·충주·수원·서산·대구)
 alter table cohorts add column if not exists join_code_hash text;         -- 입장 코드 해시 (원문 저장 안 함)
-alter table cohorts add column if not exists submit_due_at timestamptz;   -- 착륙 신고(작품 등록) 마감 표시용
+alter table cohorts add column if not exists submit_due_at timestamptz;   -- 작품 등록 마감 표시용
 alter table cohorts add column if not exists score_due_at timestamptz;    -- 채점 마감 표시용
 
 -- 작품 등록 시 보안 확인 체크 (서버에서 필수 검증)
@@ -30,7 +30,7 @@ SQL 실행 후, 로컬에서 `.env` 에 `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_K
 npm run seed:sorties
 ```
 
-- `lib/site-config.ts` 의 `sorties`(1.2 일정)로 `sortie-01` ~ `sortie-05` 회차를 만듭니다. 이름은 `SORTIE 01 · 평택` 형식.
+- `lib/site-config.ts` 의 `sorties`(1.2 일정)로 `sortie-01` ~ `sortie-05` 회차를 만듭니다. 이름은 `1회차 · 평택` 형식.
 - 같은 슬러그가 이미 있으면 **건너뜁니다** (여러 번 실행해도 안전).
 - 관리자 화면(`/admin`)의 「새 회차 추가」로 하나씩 만들어도 됩니다.
 

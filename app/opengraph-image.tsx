@@ -32,10 +32,10 @@ export default async function OpengraphImage() {
           <img src={src} width={w} height={h} alt="" />
         </div>
         <div style={{ display: "flex", fontSize: 40, fontWeight: 700, letterSpacing: 6, color: "#4FB3FF" }}>
-          FIRST FLIGHT · AI VIBE-CODING GALLERY
+          AI VIBE-CODING GALLERY
         </div>
         <div style={{ display: "flex", fontSize: 28, color: "rgba(244,248,252,0.7)", letterSpacing: 4 }}>
-          09:00 TAKEOFF → 17:00 LANDING
+          ONE-DAY AI CLASS · 09:00 – 17:00
         </div>
       </div>
     ),

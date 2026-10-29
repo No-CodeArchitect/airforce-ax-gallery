@@ -3,14 +3,14 @@ import SiteHeader from "@/components/site/SiteHeader";
 import SiteFooter from "@/components/site/SiteFooter";
 import MediaEmbed from "@/components/site/MediaEmbed";
 import { Eyebrow } from "@/components/site/Brand";
-import { FlightPlan, OutcomeCards } from "@/components/site/DayBlocks";
+import { DaySchedule, OutcomeCards } from "@/components/site/DayBlocks";
 import { getAboutMedia } from "@/lib/media-items";
 import { siteConfig, shortDate, sortieState, todayKst } from "@/lib/site-config";
 
 export const metadata: Metadata = { title: "특강 소개" };
 export const dynamic = "force-dynamic";
 
-const STATE_LABEL = { upcoming: "예정", today: "오늘 비행 중", done: "완료" } as const;
+const STATE_LABEL = { upcoming: "예정", today: "오늘 진행", done: "완료" } as const;
 
 export default async function AboutPage() {
   const video = await getAboutMedia(); // 관리자가 지정한 대표 영상 (없으면 숨김)
@@ -27,12 +27,12 @@ export default async function AboutPage() {
         <div className="hud-grid absolute inset-0" />
         <div className="relative mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 px-4 py-16 sm:px-6 sm:py-20 lg:grid-cols-2">
           <div>
-            <Eyebrow>Briefing</Eyebrow>
+            <Eyebrow>About</Eyebrow>
             <h1 className="mt-4 text-4xl font-black tracking-tight sm:text-5xl">{siteConfig.name}</h1>
             <p className="mt-5 max-w-2xl leading-relaxed text-white/75">
-              코딩을 몰라도 괜찮아요. 오늘 하루, 내 업무를 돕는 첫 AI 도구를 직접 만듭니다. 아침에는
-              Claude에게 일을 맡기는 법을 익히고, 오후에는 말로 설명한 아이디어를 바이브코딩으로 웹앱으로
-              만들어 띄운 뒤, 저녁에는 동료와 함께 디브리핑합니다.
+              코딩 경험이 없어도 참여할 수 있는 1일 과정입니다. 오전에는 Claude에게 업무를 맡기는 방법을
+              익히고, 오후에는 각자의 업무 아이디어를 바이브코딩으로 웹앱으로 만들어 배포합니다. 마지막에는
+              동료 평가와 발표로 결과를 함께 확인합니다.
             </p>
             <dl className="mt-8 grid grid-cols-1 gap-3 text-sm sm:grid-cols-3">
               {[
@@ -53,24 +53,24 @@ export default async function AboutPage() {
 
       {/* 기대효과 */}
       <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-        <Eyebrow>After one day</Eyebrow>
+        <Eyebrow>Outcomes</Eyebrow>
         <h2 className="mt-4 text-2xl font-black sm:text-3xl">{siteConfig.outcomesTitle}</h2>
         <div className="mt-8">
           <OutcomeCards />
         </div>
       </section>
 
-      {/* 하루 비행 계획 */}
+      {/* 하루 일정 */}
       <section className="border-t border-white/10 bg-base-soft">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-          <Eyebrow>Flight plan</Eyebrow>
-          <h2 className="mt-4 text-2xl font-black sm:text-3xl">{siteConfig.flightPlanTitle}</h2>
+          <Eyebrow>Schedule</Eyebrow>
+          <h2 className="mt-4 text-2xl font-black sm:text-3xl">{siteConfig.scheduleTitle}</h2>
           <p className="mt-3 text-sm text-white/60">
             {siteConfig.day.start} 시작 · 점심 {siteConfig.day.lunch.join("~")} · {siteConfig.day.end} 종료. 세부 시각은
-            현장 상황에 따라 조정될 수 있어요.
+            현장 상황에 따라 조정될 수 있습니다.
           </p>
           <div className="mt-10">
-            <FlightPlan />
+            <DaySchedule />
           </div>
         </div>
       </section>
@@ -94,7 +94,7 @@ export default async function AboutPage() {
                 const st = sortieState(s, today);
                 return (
                   <tr key={s.no} className={st === "today" ? "bg-signal/10" : ""}>
-                    <td className="px-4 py-3 font-mono font-bold text-accent">{siteConfig.sortieLabel(s.no)}</td>
+                    <td className="px-4 py-3 font-bold text-accent">{siteConfig.sortieLabel(s.no)}</td>
                     <td className="px-4 py-3 font-mono text-white/85">{shortDate(s.date)}</td>
                     <td className="px-4 py-3 font-semibold text-white">{s.city}</td>
                     <td className={`px-4 py-3 text-right text-xs font-semibold ${st === "today" ? "text-signal" : "text-white/60"}`}>

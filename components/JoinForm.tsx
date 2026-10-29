@@ -52,7 +52,7 @@ export default function JoinForm({
           required
           maxLength={12}
           defaultValue={v?.nickname ?? ""}
-          placeholder="예: 이륙성공, 바이브파일럿"
+          placeholder="예: 엑셀탈출, 자동화입문"
           className={inputCls}
         />
         <p className="text-xs text-white/60">

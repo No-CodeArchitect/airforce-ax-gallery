@@ -15,11 +15,11 @@ export interface Cohort {
   minRaters: number; // 순위에 들기 위한 최소 채점 인원
   createdAt: string;
   // --- 공군 AX 1일 특강 (SUPABASE_MIGRATION_AIRFORCE.md) ---
-  sessionNo: number | null; // 회차 1~5 (SORTIE 번호)
+  sessionNo: number | null; // 회차 번호 1~5
   heldOn: string | null; // 교육일 YYYY-MM-DD
   location: string | null; // 도시명만
   joinCodeHash: string | null; // 입장 코드 해시 (null = 수동 수락)
-  submitDueAt: string | null; // 착륙 신고(작품 등록) 마감 표시용
+  submitDueAt: string | null; // 작품 등록 마감 표시용
   scoreDueAt: string | null; // 채점 마감 표시용
 }
 

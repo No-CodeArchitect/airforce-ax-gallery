@@ -14,7 +14,7 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // 공군 AX · "첫 비행" — 딥 에어포스 네이비 + 스카이블루, 활주로 등화 앰버는 소량 포인트
+        // 공군 AX — 딥 네이비 + 스카이블루, 앰버는 순위 뱃지 등 소량 포인트
         // (의미 기반 이름: base 바탕 / surface 카드 / accent 강조 / signal 뱃지)
         base: {
           DEFAULT: "#0B1A2E", // 페이지 바탕
@@ -51,28 +51,17 @@ const config: Config = {
           "Roboto",
           "sans-serif",
         ],
-        // 숫자·라벨 전용 (SORTIE 01, 시각, 카운터). 제목에는 쓰지 않는다.
+        // 숫자 전용 (시각, 카운터). 제목에는 쓰지 않는다.
         mono: ["var(--font-mono)", "JetBrains Mono", "ui-monospace", "monospace"],
       },
       keyframes: {
-        climb: {
-          "0%": { transform: "rotate(-120deg)" },
-          "100%": { transform: "rotate(120deg)" },
-        },
         "fade-up": {
           "0%": { opacity: "0", transform: "translateY(8px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
-        takeoff: {
-          "0%": { transform: "translate(-10%, 30%) rotate(-12deg)", opacity: "0" },
-          "30%": { opacity: "1" },
-          "100%": { transform: "translate(110%, -60%) rotate(-12deg)", opacity: "0" },
-        },
       },
       animation: {
-        climb: "climb 1.8s cubic-bezier(.3,.7,.3,1) 0.3s both",
         "fade-up": "fade-up 0.6s ease-out both",
-        takeoff: "takeoff 2.4s ease-in 0.4s both",
       },
     },
   },

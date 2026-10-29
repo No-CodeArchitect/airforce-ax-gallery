@@ -6,66 +6,51 @@ export function OutcomeCards() {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {siteConfig.outcomes.map((o, i) => (
-        <div key={o.title} className="relative flex flex-col rounded-2xl bg-surface p-6 ring-1 ring-white/10">
-          <div className="flex items-center justify-between">
-            <span className="font-mono text-sm font-bold text-accent/80">{String(i + 1).padStart(2, "0")}</span>
-            <span className="text-2xl" aria-hidden>
-              {o.icon}
-            </span>
-          </div>
+        <div key={o.title} className="flex flex-col rounded-2xl bg-surface p-6 ring-1 ring-white/10">
+          <span className="font-mono text-sm font-bold text-accent">{String(i + 1).padStart(2, "0")}</span>
           <h3 className="mt-4 text-lg font-black text-white">{o.title}</h3>
           <p className="mt-2 flex-1 text-sm leading-relaxed text-white/70">{o.desc}</p>
-          <span className="mt-4 self-start rounded-full bg-white/5 px-2.5 py-0.5 text-xs font-semibold text-white/60 ring-1 ring-white/10">
-            {o.tag}
-          </span>
+          <span className="mt-5 self-start text-xs font-semibold text-white/60">{o.tag}</span>
         </div>
       ))}
     </div>
   );
 }
 
-// 하루 비행 계획 타임라인 — 데스크톱은 수평 비행경로, 모바일은 세로
-export function FlightPlan() {
-  const steps = siteConfig.flightPlan;
+// 하루 일정 타임라인 — 데스크톱은 가로, 모바일은 세로
+export function DaySchedule() {
+  const steps = siteConfig.schedule;
   return (
-    <ol className="relative grid grid-cols-1 gap-0 lg:grid-cols-6 lg:gap-3">
-      {/* 수평 경로선 (lg) */}
-      <span
-        aria-hidden
-        className="pointer-events-none absolute left-[8%] right-[8%] top-[22px] hidden border-t-2 border-dashed border-accent/40 lg:block"
-      />
-      {steps.map((s, i) => {
-        const lunch = s.time === siteConfig.day.lunch[0];
-        return (
-          <li key={s.time} className="relative flex gap-4 pb-6 last:pb-0 lg:flex-col lg:items-center lg:gap-3 lg:pb-0 lg:text-center">
-            {/* 세로 경로선 (모바일) */}
-            {i < steps.length - 1 && (
-              <span aria-hidden className="absolute left-[21px] top-11 h-[calc(100%-2.75rem)] border-l-2 border-dashed border-accent/40 lg:hidden" />
-            )}
-            <span
-              className={`relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-lg ring-2 ${
-                lunch ? "bg-signal/15 ring-signal/70" : "bg-surface ring-accent/60"
-              }`}
-              aria-hidden
-            >
-              {s.icon}
-            </span>
-            <div className="pt-1 lg:pt-0">
-              <div className={`font-mono text-sm font-bold ${lunch ? "text-signal" : "text-accent"}`}>{s.time}</div>
-              <div className="mt-0.5 font-black text-white">{s.label}</div>
-              <p className="mt-1 text-sm leading-relaxed text-white/65">{s.desc}</p>
-            </div>
-          </li>
-        );
-      })}
+    <ol className="relative grid grid-cols-1 gap-0 lg:grid-cols-6 lg:gap-4">
+      {/* 가로 연결선 (lg) */}
+      <span aria-hidden className="pointer-events-none absolute left-[6px] right-[8%] top-[6px] hidden h-px bg-white/15 lg:block" />
+      {steps.map((s, i) => (
+        <li key={s.time} className="relative flex gap-4 pb-7 last:pb-0 lg:flex-col lg:gap-4 lg:pb-0">
+          {/* 세로 연결선 (모바일) */}
+          {i < steps.length - 1 && (
+            <span aria-hidden className="absolute left-[6px] top-4 h-[calc(100%-0.5rem)] w-px bg-white/15 lg:hidden" />
+          )}
+          <span
+            aria-hidden
+            className={`relative z-10 mt-1 h-[13px] w-[13px] shrink-0 rounded-full ring-4 ring-base lg:mt-0 ${
+              s.muted ? "bg-white/30" : "bg-accent"
+            }`}
+          />
+          <div>
+            <div className={`font-mono text-sm font-bold ${s.muted ? "text-white/60" : "text-accent"}`}>{s.time}</div>
+            <div className={`mt-1 font-bold ${s.muted ? "text-white/70" : "text-white"}`}>{s.label}</div>
+            <p className="mt-1 text-sm leading-relaxed text-white/65">{s.desc}</p>
+          </div>
+        </li>
+      ))}
     </ol>
   );
 }
 
 const STATE_DOT = {
   upcoming: { cls: "bg-white/30", label: "예정" },
-  today: { cls: "bg-signal animate-pulse", label: "오늘 비행 중" },
-  done: { cls: "bg-accent", label: "완료" },
+  today: { cls: "bg-signal", label: "오늘 진행" },
+  done: { cls: "bg-accent", label: "종료" },
 } as const;
 
 // 교육 일정 한 줄 띠. hrefOf 가 없으면 링크 없이 표시.
@@ -84,11 +69,11 @@ export function SortieStrip({
         const body = (
           <>
             <span className={`h-2 w-2 shrink-0 rounded-full ${STATE_DOT[st].cls}`} aria-hidden />
-            <span className="font-mono text-xs font-bold text-white/60">{siteConfig.sortieLabel(s.no)}</span>
+            <span className="text-xs font-semibold text-white/60">{siteConfig.sortieLabel(s.no)}</span>
             <span className="font-semibold text-white">{s.city}</span>
-            <span className="font-mono text-xs text-white/55">{shortDate(s.date).replace(/\(.\)/, "")}</span>
+            <span className="font-mono text-xs text-white/60">{shortDate(s.date).replace(/\(.\)/, "")}</span>
             {st === "today" && (
-              <span className="rounded-full bg-signal px-2 py-0.5 text-[11px] font-black text-on-accent">오늘 비행 중</span>
+              <span className="rounded-full bg-signal px-2 py-0.5 text-[11px] font-bold text-on-accent">오늘 진행</span>
             )}
             <span className="sr-only">({STATE_DOT[st].label})</span>
           </>
@@ -105,7 +90,11 @@ export function SortieStrip({
             ) : (
               <span className={cls}>{body}</span>
             )}
-            {i < siteConfig.sorties.length - 1 && <span className="text-white/20" aria-hidden>·</span>}
+            {i < siteConfig.sorties.length - 1 && (
+              <span className="text-white/20" aria-hidden>
+                ·
+              </span>
+            )}
           </li>
         );
       })}

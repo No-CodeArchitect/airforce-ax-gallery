@@ -20,7 +20,7 @@ export default async function MediaPage() {
             영상 · 미디어
           </h1>
           <p className="mt-5 max-w-2xl leading-relaxed text-white/60">
-            회차별 첫 비행 현장과 디브리핑 순간을 모았습니다.
+            회차별 교육 현장과 발표 순간을 모았습니다.
           </p>
         </div>
       </section>
@@ -42,7 +42,7 @@ export default async function MediaPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {["브리핑", "임무 비행", "착륙 신고", "디브리핑", "ACE 공개", "현장 스케치"].map(
+            {["오리엔테이션", "실습", "작품 등록", "발표", "시상", "현장 스케치"].map(
               (l, i) => (
                 <div
                   key={i}

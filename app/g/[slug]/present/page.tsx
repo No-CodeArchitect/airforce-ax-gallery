@@ -32,7 +32,7 @@ export default async function SectionPresentPage({
       <div className="hud-grid pointer-events-none absolute inset-0" />
       <div className="relative mx-auto max-w-6xl px-6 py-10">
         <div className="mb-8 flex items-center justify-between">
-          <span className="rounded-md bg-white/10 px-2 py-0.5 font-mono text-xs font-bold tracking-wider">
+          <span className="rounded-md bg-white/10 px-2 py-0.5 text-xs font-bold">
             {cohort.name}
           </span>
           <Link
@@ -44,18 +44,18 @@ export default async function SectionPresentPage({
         </div>
 
         <div className="text-center">
-          <div className="font-mono text-sm font-bold tracking-[0.3em] text-accent">
-            {label ? `${label} · DEBRIEFING` : "DEBRIEFING"}
+          <div className="text-sm font-bold tracking-[0.2em] text-accent">
+            {label ? `${label} · RESULTS` : "RESULTS"}
           </div>
           <h1 className="mt-3 text-4xl font-black tracking-tight sm:text-6xl">
-            오늘의 비행 기록
+            결과 발표
           </h1>
         </div>
 
         {!cohort.rankRevealed ? (
           <div className="mt-14 flex flex-col items-center gap-6 text-center">
             <p className="text-lg text-white/70">
-              순위는 디브리핑 때 공개됩니다. 아직 입장 전이라면 QR로 들어와 채점에 참여하세요.
+              순위는 발표 시간에 공개됩니다. 아직 입장하지 않았다면 QR로 들어와 채점에 참여해 주세요.
             </p>
             <JoinQr url={joinUrl} size={280} />
             <p className="break-all font-mono text-sm text-white/60">{joinUrl}</p>
@@ -83,16 +83,8 @@ export default async function SectionPresentPage({
                     style={{ animationDelay: ace ? "0.6s" : "0.2s" }}
                   >
                     {ace && (
-                      <span
-                        aria-hidden
-                        className="pointer-events-none absolute left-0 top-1/2 animate-takeoff text-4xl"
-                      >
-                        ✈️
-                      </span>
-                    )}
-                    {ace && (
-                      <div className="mb-2 inline-block rounded-full bg-signal px-3 py-1 font-mono text-sm font-bold tracking-[0.25em] text-on-accent">
-                        ACE
+                      <div className="mb-2 inline-block rounded-full bg-signal px-3 py-1 text-sm font-bold tracking-wider text-on-accent">
+                        최우수
                       </div>
                     )}
                     <div className="text-5xl">{medal}</div>
@@ -102,7 +94,6 @@ export default async function SectionPresentPage({
                       {p.avgScore?.toFixed(2)}
                     </div>
                     <div className="text-xs text-white/60">{p.raterCount}명 채점</div>
-                    {ace && <div className="mt-3 text-sm font-semibold text-signal">이륙 성공! 오늘의 에이스 ✨</div>}
                   </div>
                 );
               })}

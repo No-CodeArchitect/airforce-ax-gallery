@@ -1,4 +1,4 @@
-// 홈·회차 기록 화면용 집계: 실데이터 숫자 밴드, 회차별 ACE, 일정 띠의 회차 매핑.
+// 홈·회차 기록 화면용 집계: 실데이터 숫자 밴드, 회차별 최우수 작품, 일정 띠의 회차 매핑.
 // 기존 저장소·순위 로직(lib/ranking.ts)은 읽기만 하고 수정하지 않는다.
 
 import "server-only";
@@ -12,7 +12,7 @@ import { rankProjects } from "./ranking";
 import { siteConfig, type Sortie } from "./site-config";
 
 export interface DayStats {
-  projects: number; // 공개된(착륙한) 작품
+  projects: number; // 공개된 작품
   pilots: number; // 회차 가입이 수락된 장병
   feedback: number; // 댓글 + 채점 수
 }
@@ -41,7 +41,7 @@ export function sortieOf(c: Cohort): Sortie | undefined {
   return siteConfig.sorties.find((s) => s.no === c.sessionNo || sortieSlug(s.no) === c.slug);
 }
 
-// 순위가 공개된 회차의 1위 작품 (평균이 같으면 공동 ACE)
+// 순위가 공개된 회차의 1위 작품 (평균이 같으면 공동 최우수)
 export async function aceOf(c: Cohort, projects?: Project[]): Promise<Project[]> {
   if (!c.rankRevealed) return [];
   const ranked = await rankProjects(projects ?? (await getProjects(c.id)), c.minRaters);

@@ -1,4 +1,4 @@
-// 5개 회차(SORTIE 01~05) 시드. 이미 같은 슬러그가 있으면 건너뛴다.
+// 5개 회차(1~5회차) 시드. 이미 같은 슬러그가 있으면 건너뛴다.
 // 사용: npm run seed:sorties   (.env 의 SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY 필요)
 // 일정은 lib/site-config.ts 의 sorties 와 같게 유지한다.
 
@@ -39,7 +39,7 @@ for (const s of SORTIES) {
   const row = {
     id: `co_sortie${pad(s.no)}`,
     slug,
-    name: `SORTIE ${pad(s.no)} · ${s.city}`,
+    name: `${s.no}회차 · ${s.city}`,
     scoring_open: true,
     rank_revealed: false,
     min_raters: 3,

@@ -72,7 +72,7 @@ export default function ProjectCard({
           <Thumbnail project={project} />
           <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
             {project.rank !== null && (
-              <Badge tone="rank">{project.rank === 1 ? "ACE ✈" : `#${project.rank}`}</Badge>
+              <Badge tone="rank">#{project.rank}</Badge>
             )}
             {project.isNew && <Badge tone="new">NEW</Badge>}
           </div>

@@ -130,7 +130,7 @@ export default function SubmitProjectForm({
       )}
       {state.ok && (
         <p className="rounded-lg bg-emerald-500/15 px-3 py-2 text-sm text-emerald-300">
-          착륙 완료! 동료들의 디브리핑을 기다려 보세요. 🛬
+          등록되었습니다. AI 분석이 끝나면 1분 안에 갤러리 카드로 공개됩니다.
         </p>
       )}
 

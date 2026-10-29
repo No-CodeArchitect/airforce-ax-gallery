@@ -11,7 +11,7 @@ export function Emblem({ className = "h-7" }: { className?: string }) {
   );
 }
 
-// Eyebrow: 대문자 트래킹 + 짧은 사선 마커(항적)
+// Eyebrow: 대문자 트래킹 + 짧은 가로 마커
 export function Eyebrow({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex items-center gap-2.5">

@@ -296,7 +296,7 @@ export default async function AdminDashboard() {
             <input
               name="name"
               required
-              placeholder="회차 이름 (예: SORTIE 02 · 충주)"
+              placeholder="회차 이름 (예: 2회차 · 충주)"
               className={`${adminInput} col-span-2 sm:col-span-3`}
             />
             <input name="slug" placeholder="링크 주소 (선택, 예: sortie-02)" className={`${adminInput} col-span-2 sm:col-span-3`} />
