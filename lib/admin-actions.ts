@@ -54,7 +54,7 @@ async function requireAdmin(): Promise<void> {
 }
 
 function refresh() {
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
   revalidatePath("/", "layout");
 }
 

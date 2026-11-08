@@ -96,7 +96,7 @@ export async function joinSectionAction(_prev: JoinState, formData: FormData): P
   }
 
   revalidatePath(`/g/${cohort.slug}/join`);
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
   if (approvedNow) {
     redirect(formData.get("next") === "submit" ? `/g/${cohort.slug}/submit` : `/g/${cohort.slug}`);
   }

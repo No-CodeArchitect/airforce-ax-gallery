@@ -72,7 +72,7 @@ export async function submitEduRequest(
       values,
     };
   }
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
   return { ok: true, error: null };
 }
 
@@ -83,12 +83,12 @@ export async function setEduRequestStatusAction(formData: FormData): Promise<voi
   const status = String(formData.get("status") ?? "") as EduRequestStatus;
   if (!id || !["new", "contacted", "done"].includes(status)) return;
   await setEduRequestStatus(id, status);
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
 }
 
 export async function deleteEduRequestAction(formData: FormData): Promise<void> {
   if (!(await isAdmin())) throw new Error("관리자 권한이 필요합니다.");
   const id = String(formData.get("id") ?? "");
   if (id) await deleteEduRequest(id);
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
 }

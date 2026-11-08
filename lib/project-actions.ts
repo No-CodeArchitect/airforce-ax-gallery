@@ -128,7 +128,7 @@ export async function submitProjectAction(
 
   revalidatePath(`/g/${cohort.slug}`);
   revalidatePath(`/g/${cohort.slug}/submit`);
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
   return { ok: true, error: null, values: sub, thumbSaved: thumb?.path ?? thumbPath };
 }
 
@@ -147,7 +147,7 @@ export async function setThumbnailAction(
   } catch (err) {
     return { ok: false, error: (err as Error).message };
   }
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
   revalidatePath("/", "layout");
   return { ok: true };
 }
@@ -160,7 +160,7 @@ export async function removeThumbnailAction(formData: FormData): Promise<void> {
   if (!rec?.thumbPath) return;
   await updateRecord(id, { thumbUrl: null, thumbPath: null });
   await removeThumbFile(rec.thumbPath);
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
   revalidatePath("/", "layout");
 }
 
@@ -171,6 +171,6 @@ export async function deleteProjectAction(formData: FormData): Promise<void> {
   if (!id) return;
   const removed = await deleteRecord(id);
   if (removed) await removeThumbFile(removed.thumbPath);
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
   revalidatePath("/", "layout");
 }
